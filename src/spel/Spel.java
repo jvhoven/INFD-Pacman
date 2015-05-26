@@ -15,8 +15,8 @@ import javax.swing.JFrame;
  */
 public class Spel extends JFrame {
     
-    final int BREEDTE = 700;
-    final int HOOGTE = 500;
+    final int BREEDTE = 550;
+    final int HOOGTE = 550;
     
     public Spel() {
         super("INF-D Pacman Groep B6");
