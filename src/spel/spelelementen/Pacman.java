@@ -12,6 +12,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import spel.levelelementen.LeegVakje;
@@ -28,14 +30,14 @@ public class Pacman extends Poppetje implements KeyListener {
 
     private BufferedImage pacmanPlaatje = null;
 
-    public Pacman(LeegVakje startVakje) {
+    public Pacman(LeegVakje startVakje) throws URISyntaxException {
         this.huidigVakje = startVakje;
 
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            URL urlPath = classLoader.getResource("images/pacman.png");
-            if (urlPath != null) {
-                File file = new File(urlPath.getFile());
+            URI uriPath = classLoader.getResource("images/pacman.png").toURI();
+            if (uriPath != null) {
+                File file = new File(uriPath);
                 pacmanPlaatje = ImageIO.read(file);
             }
         } catch (IOException e) {
