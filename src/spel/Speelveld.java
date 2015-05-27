@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import spel.levelelementen.LeegVakje;
@@ -27,11 +25,10 @@ import spel.spelelementen.Pacman;
  */
 public class Speelveld extends JPanel {
 
-    private SpelStatus status = null;
-    //private Graphics2D g;
+    private SpelStatus spelStatus = null;
     private Vakje[][] level = null;
     private Pacman pacman = null;
-    
+
     private Timer gameTimer = null;
 
     public Speelveld() {
@@ -41,36 +38,37 @@ public class Speelveld extends JPanel {
         setFocusable(true);
         requestFocus();
 
-        start();
+        initialiseer();
     }
 
     private void initialiseer() {
-        status = SpelStatus.GESTART;
         gameTimer = new Timer(100, new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 repaint();
             }
         });
-        //g = (Graphics2D) getGraphics();
 
         int[][] levelInfo = {
             {1, 1, 1, 2, 1},
             {0, 0, 0, 0, 1},
-            {0, 1, 1, 1, 1},
+            {0, 1, 0, 1, 1},
             {0, 0, 0, 0, 1},
             {1, 1, 1, 0, 1}
         };
 
         initLevel(levelInfo);
+
+        this.repaint();
+        
+        this.spelStatus = SpelStatus.GEPAUZEERD;
     }
 
     public void initLevel(int[][] levelInfo) {
         level = new Vakje[5][5];
 
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {                
+            for (int j = 0; j < 5; j++) {
                 Positie nieuwePositie = new Positie(i + 1, j + 1);
                 Vakje nieuwVakje = null;
                 if (levelInfo[i][j] == 1) {
@@ -98,17 +96,7 @@ public class Speelveld extends JPanel {
 
     public void initPacman(LeegVakje startVakje) {
         this.pacman = new Pacman(startVakje);
-        this.addKeyListener(pacman);
-        //this.pacman.requestFocus();
-    }
-
-    private void start() {
-
-        initialiseer();
-        // Game loop komt hier
-        
-        gameTimer.start();
-        
+        //this.addKeyListener(pacman);
     }
 
     private void teken(Graphics2D g) {
@@ -127,5 +115,26 @@ public class Speelveld extends JPanel {
         super.paintComponent(g);
 
         this.teken((Graphics2D) g);
+    }
+
+    public void startSpel() {
+        this.gameTimer.start();
+        this.spelStatus = SpelStatus.GESTART;
+        this.addKeyListener(pacman);
+    }
+
+    public void pauzeerSpel() {
+        this.gameTimer.stop();
+        this.spelStatus = SpelStatus.GEPAUZEERD;
+        this.removeKeyListener(pacman);
+    }
+
+    public void reset() {
+        this.pauzeerSpel();
+        this.initialiseer();
+    }
+
+    public SpelStatus getSpelStatus() {
+        return this.spelStatus;
     }
 }

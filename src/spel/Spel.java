@@ -1,6 +1,7 @@
 package spel;
 
 
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 /*
@@ -15,8 +16,11 @@ import javax.swing.JFrame;
  */
 public class Spel extends JFrame {
     
-    final int BREEDTE = 550;
-    final int HOOGTE = 550;
+    final int BREEDTE = 516;
+    final int HOOGTE = 574;
+    
+    Speelveld speelveld = null;
+    GUI gui = null;
     
     public Spel() {
         super("INF-D Pacman Groep B6");
@@ -24,21 +28,33 @@ public class Spel extends JFrame {
         setSize(BREEDTE, HOOGTE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
         
         initialiseer();
     }
 
     private void initialiseer() {
         
-        Speelveld speelveld = new Speelveld();
-        GUI gui = new GUI();
+        gui = new GUI(this);        
+        add(gui, BorderLayout.NORTH);
         
-        add(gui);
-        add(speelveld);
+        speelveld = new Speelveld();
+        add(speelveld, BorderLayout.CENTER);        
         
         setVisible(true);
     }
     
+    public String changeSpelStatus(){
+        if(speelveld.getSpelStatus() == SpelStatus.GESTART){
+            speelveld.pauzeerSpel();
+            return "Hervat";
+        } else {
+            speelveld.startSpel();
+            return "Pauzeer";
+        }
+    }    
     
-    
+    public void resetSpel(){
+        speelveld.reset();
+    }
 }
