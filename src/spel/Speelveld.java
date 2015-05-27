@@ -6,19 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Muur;
-import spel.levelelementen.Positie;
-import spel.levelelementen.Vakje;
-import spel.spelelementen.Pacman;
+import spel.levelelementen.*;
+import spel.spelelementen.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author Jeffrey
@@ -27,6 +20,7 @@ public class Speelveld extends JPanel {
 
     private SpelStatus spelStatus = null;
     private Vakje[][] level = null;
+    private ArrayList<Spookje> spookjes = new ArrayList<>();
     private Pacman pacman = null;
 
     private Timer gameTimer = null;
@@ -48,13 +42,13 @@ public class Speelveld extends JPanel {
                 repaint();
             }
         });
-
+        
         int[][] levelInfo = {
             {1, 1, 1, 2, 1},
-            {0, 0, 0, 0, 1},
+            {0, 3, 0, 0, 1},
             {0, 1, 0, 1, 1},
-            {0, 0, 0, 0, 1},
-            {1, 1, 1, 0, 1}
+            {0, 0, 0, 3, 1},
+            {1, 1, 1, 1, 1}
         };
 
         initLevel(levelInfo);
@@ -71,18 +65,30 @@ public class Speelveld extends JPanel {
             for (int j = 0; j < 5; j++) {
                 Positie nieuwePositie = new Positie(i + 1, j + 1);
                 Vakje nieuwVakje = null;
-                if (levelInfo[i][j] == 1) {
-                    nieuwVakje = new Muur(nieuwePositie);
-                } else if (levelInfo[i][j] == 0) {
-                    nieuwVakje = new LeegVakje(nieuwePositie);
-                } else if (levelInfo[i][j] == 2) {
-                    nieuwVakje = new LeegVakje(nieuwePositie);
-                    initPacman((LeegVakje) nieuwVakje);
-                    ((LeegVakje) nieuwVakje).toevoegenPoppetje(pacman);
-                } else if (levelInfo[i][j] == 3) {
-                    nieuwVakje = new LeegVakje(nieuwePositie);
-                    //stop spookje in dit vakje
+                
+                switch(levelInfo[i][j]) {
+                    case 0:
+                        nieuwVakje = new LeegVakje(nieuwePositie);
+                        break;
+                    case 1:
+                       nieuwVakje = new Muur(nieuwePositie);
+                       break;
+                    case 2:
+                        nieuwVakje = new LeegVakje(nieuwePositie);
+                        initPacman((LeegVakje) nieuwVakje);
+                        ((LeegVakje) nieuwVakje).toevoegenPoppetje(pacman);
+                        break;
+                    case 3:
+                        nieuwVakje = new LeegVakje(nieuwePositie);
+                        Spookje spookje = new Spookje(nieuwVakje);
+                        ((LeegVakje) nieuwVakje).toevoegenPoppetje(spookje);
+                    
+                        // Voeg toe aan de array
+                        spookjes.add(spookje);
+                        break;
+                        
                 }
+              
                 level[i][j] = nieuwVakje;
             }
         }
@@ -117,20 +123,20 @@ public class Speelveld extends JPanel {
         this.teken((Graphics2D) g);
     }
 
-    public void startSpel() {
+    public void start() {
         this.gameTimer.start();
         this.spelStatus = SpelStatus.GESTART;
         this.addKeyListener(pacman);
     }
 
-    public void pauzeerSpel() {
+    public void pauzeer() {
         this.gameTimer.stop();
         this.spelStatus = SpelStatus.GEPAUZEERD;
         this.removeKeyListener(pacman);
     }
 
     public void reset() {
-        this.pauzeerSpel();
+        this.pauzeer();
         this.initialiseer();
     }
 

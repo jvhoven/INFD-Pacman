@@ -6,7 +6,6 @@
 package spel.spelelementen;
 
 import java.awt.Graphics2D;
-import javax.swing.JComponent;
 import spel.levelelementen.LeegVakje;
 
 /**

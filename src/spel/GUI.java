@@ -26,7 +26,7 @@ public class GUI extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                startButton.setText(spel.changeSpelStatus());
+                startButton.setText(spel.setSpelStatus());
             }
         });
         this.add(startButton);
@@ -37,7 +37,7 @@ public class GUI extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                spel.resetSpel();
+                spel.reset();
                 startButton.setText("Start");
             }
         });

@@ -16,8 +16,8 @@ import javax.swing.JFrame;
  */
 public class Spel extends JFrame {
     
-    final int BREEDTE = 516;
-    final int HOOGTE = 574;
+    private final int BREEDTE = 516;
+    private final int HOOGTE = 574;
     
     Speelveld speelveld = null;
     GUI gui = null;
@@ -28,7 +28,6 @@ public class Spel extends JFrame {
         setSize(BREEDTE, HOOGTE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
         
         initialiseer();
     }
@@ -44,17 +43,17 @@ public class Spel extends JFrame {
         setVisible(true);
     }
     
-    public String changeSpelStatus(){
+    public String setSpelStatus(){
         if(speelveld.getSpelStatus() == SpelStatus.GESTART){
-            speelveld.pauzeerSpel();
+            speelveld.pauzeer();
             return "Hervat";
         } else {
-            speelveld.startSpel();
+            speelveld.start();
             return "Pauzeer";
         }
     }    
     
-    public void resetSpel(){
+    public void reset(){
         speelveld.reset();
     }
 }

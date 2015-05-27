@@ -18,7 +18,9 @@ import spel.levelelementen.Vakje;
  * @author Hans
  */
 public class Pacman extends Poppetje implements KeyListener {
-
+    
+    private boolean arrowKeyPressed = false;
+    
     public Pacman(LeegVakje startVakje) {
         this.huidigVakje = startVakje;
     }
@@ -47,28 +49,35 @@ public class Pacman extends Poppetje implements KeyListener {
             this.beweegNaar((LeegVakje) buurVakje);
         }
     }
-
-    private boolean arrowKeyPressed = false;
-
+    
+    private Positie getPositie(KeyEvent e) {
+        
+        Positie buurPositie = null;
+        Positie huidigePositie = this.huidigVakje.positie;
+        
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_DOWN:
+                buurPositie = new Positie(huidigePositie.x, huidigePositie.y + 1);
+                break;
+            case KeyEvent.VK_UP:
+                buurPositie = new Positie(huidigePositie.x, huidigePositie.y - 1);
+                break;
+            case KeyEvent.VK_LEFT:
+                buurPositie = new Positie(huidigePositie.x - 1, huidigePositie.y);
+                break;
+            case KeyEvent.VK_RIGHT:
+                buurPositie = new Positie(huidigePositie.x + 1, huidigePositie.y);
+                break;
+        }
+        
+        return buurPositie;
+    }
+    
     @Override
     public void keyPressed(KeyEvent e) {
         if (!arrowKeyPressed) {
-            Positie buurPositie = null;
-            Positie huidigePositie = this.huidigVakje.positie;
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_DOWN:
-                    buurPositie = new Positie(huidigePositie.x, huidigePositie.y + 1);
-                    break;
-                case KeyEvent.VK_UP:
-                    buurPositie = new Positie(huidigePositie.x, huidigePositie.y - 1);
-                    break;
-                case KeyEvent.VK_LEFT:
-                    buurPositie = new Positie(huidigePositie.x - 1, huidigePositie.y);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    buurPositie = new Positie(huidigePositie.x + 1, huidigePositie.y);
-                    break;
-            }
+            Positie buurPositie = getPositie(e);
+           
             if (buurPositie != null) {
                 this.beweeg(buurPositie);
             }
