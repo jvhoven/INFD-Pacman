@@ -47,7 +47,7 @@ public class LeegVakje extends Vakje {
         g.fillRect(startPositieX, startPositieY, SIZE - 2, SIZE - 2);
         
         g.setColor(Color.black);
-        g.drawString(positie.x + ", " + positie.y, startPositieX + 10, startPositieY + 10);
+        g.drawString(positie.y + ", " + positie.x, startPositieX + 10, startPositieY + 10);
         
         for (Poppetje p : this.poppetjes) {
             p.teken(g);
