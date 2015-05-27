@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Positie;
@@ -30,7 +32,7 @@ public class Pacman extends Poppetje implements KeyListener {
 
     private BufferedImage pacmanPlaatje = null;
 
-    public Pacman(LeegVakje startVakje) throws URISyntaxException {
+    public Pacman(LeegVakje startVakje) {
         this.huidigVakje = startVakje;
 
         try {
@@ -42,6 +44,8 @@ public class Pacman extends Poppetje implements KeyListener {
             }
         } catch (IOException e) {
             System.err.print(e);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

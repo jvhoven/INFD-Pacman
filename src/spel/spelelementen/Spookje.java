@@ -10,7 +10,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
@@ -23,18 +27,20 @@ public class Spookje extends Poppetje {
 
     private BufferedImage spookPlaatje = null;
 
-    public Spookje(Vakje startVakje) {
+    public Spookje(Vakje startVakje){
         setHuidigVakje((LeegVakje) startVakje);
 
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            URL urlPath = classLoader.getResource("images/spook.png");
-            if (urlPath != null) {
-                File file = new File(urlPath.getFile());
+            URI uriPath = classLoader.getResource("images/spook.png").toURI();
+            if (uriPath != null) {
+                File file = new File(uriPath);
                 spookPlaatje = ImageIO.read(file);
             }
         } catch (IOException e) {
             System.err.print(e);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Spookje.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
