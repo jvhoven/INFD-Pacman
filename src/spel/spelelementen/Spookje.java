@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -53,8 +52,12 @@ public class Spookje extends Poppetje {
             if (spookPlaatje == null) {
                 g.setColor(Color.blue);
                 g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
-            } else {
-                g.drawImage(spookPlaatje, x, y, null);
+            } else {                
+                
+                int width = spookPlaatje.getWidth();
+                int height = spookPlaatje.getHeight();
+                
+                g.drawImage(spookPlaatje, x + (width / 4) - 5, y + (height / 4), width / 2, height / 2, null);
             }
         }
     }
