@@ -8,6 +8,7 @@ package spel.levelelementen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import spel.spelelementen.Poppetje;
 
 /**
@@ -21,7 +22,7 @@ public class LeegVakje extends Vakje {
     public LeegVakje(Positie positie) {
         this.positie = positie;
         this.poppetjes = new ArrayList();        
-        this.buurVakjes = new ArrayList<>();
+        this.buurVakjes = new HashMap<>();
     }
 
     public void verwijderPoppetje(Poppetje p) {

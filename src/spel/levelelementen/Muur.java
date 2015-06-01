@@ -7,7 +7,7 @@ package spel.levelelementen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Muur extends Vakje {
 
     public Muur(Positie positie){
         this.positie = positie;
-        this.buurVakjes = new ArrayList<>();
+        this.buurVakjes = new HashMap<>();
     }
     
     @Override

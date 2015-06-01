@@ -6,7 +6,8 @@
 package spel.levelelementen;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.util.HashMap;
+import spel.Richting;
 
 /**
  *
@@ -17,28 +18,29 @@ public abstract class Vakje {
     public static final int SIZE = 100;
 
     public Positie positie;
-    public ArrayList<Vakje> buurVakjes;
+    public HashMap<Richting, Vakje> buurVakjes;
 
-    public Vakje getBuurVakje(Positie buurPositie) {
-        for (Vakje v : buurVakjes) {
-            if (v.positie.equals(buurPositie)) {
-                return v;
-            }
-        }
-        return null;
+    public Vakje getBuurVakje(Richting richting) {
+        return buurVakjes.get(richting);
     }
 
     public void setBuurVakjes(Vakje[][] level) {
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                Positie buurPositie = new Positie(this.positie.x + i, this.positie.y + j);
-                if ((buurPositie.x == this.positie.x || buurPositie.y == this.positie.y)
-                        && !(buurPositie.x == this.positie.x && buurPositie.y == this.positie.y)
-                        && buurPositie.x >= 1 && buurPositie.x <= 5 && buurPositie.y >= 1 && buurPositie.y <= 5) {
-                    buurVakjes.add(level[buurPositie.x - 1][buurPositie.y - 1]);
-                }
-            }
+        if (this.positie.x > 1) {
+            this.buurVakjes.put(Richting.LINKS, level[this.positie.x - 2][this.positie.y - 1]);
         }
+
+        if (this.positie.y > 1) {
+            this.buurVakjes.put(Richting.OMHOOG, level[this.positie.x - 1][this.positie.y - 2]);
+        }
+
+        if (this.positie.x < 5) {
+            this.buurVakjes.put(Richting.RECHTS, level[this.positie.x][this.positie.y - 1]);
+        }
+
+        if (this.positie.y < 5) {
+            this.buurVakjes.put(Richting.OMLAAG, level[this.positie.x - 1][this.positie.y]);
+        }
+
     }
 
     public abstract void teken(Graphics2D g);

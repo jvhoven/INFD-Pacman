@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,14 +35,14 @@ public class Pacman extends Poppetje implements KeyListener {
     public Pacman(LeegVakje startVakje) {
         this.huidigVakje = startVakje;
         this.richting = Richting.NEUTRAAL;
-        
+
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             URI uriPath = classLoader.getResource("images/pacman.png").toURI();
             if (uriPath != null) {
                 File file = new File(uriPath);
                 pacmanPlaatje = ImageIO.read(file);
-                
+
             }
         } catch (IOException e) {
             System.err.print(e);
@@ -63,25 +61,25 @@ public class Pacman extends Poppetje implements KeyListener {
                 g.setColor(Color.yellow);
                 g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
             } else {
-                
+
                 BufferedImage afbeelding = setOrientatie();
                 g.drawImage(afbeelding, x + (pacmanPlaatje.getWidth() / 4) - 5, y + (pacmanPlaatje.getHeight() / 4), null);
             }
         }
     }
-    
-    private BufferedImage setOrientatie() {     
-        
+
+    private BufferedImage setOrientatie() {
+
         int width = pacmanPlaatje.getWidth() / 2;
         int height = pacmanPlaatje.getHeight() / 2;
-        
+
         BufferedImage pacmanOrientatie = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D bg = pacmanOrientatie.createGraphics();               
-        
-        bg.rotate(richting.getGraden(), width/2, height/2);
+        Graphics2D bg = pacmanOrientatie.createGraphics();
+
+        bg.rotate(richting.getGraden(), width / 2, height / 2);
         bg.drawImage(pacmanPlaatje, 0, 0, width, height, null);
         bg.dispose();
-        
+
         return pacmanOrientatie;
     }
 
@@ -90,49 +88,36 @@ public class Pacman extends Poppetje implements KeyListener {
 
     }
 
-    private void controleerBuurvakje(Positie nieuwePositie) {
-        Vakje buurVakje = this.huidigVakje.getBuurVakje(nieuwePositie);
+    private void controleerBuurvakje(Richting richting) {
+        Vakje buurVakje = this.huidigVakje.getBuurVakje(richting);
 
         if (buurVakje != null && buurVakje instanceof LeegVakje) {
             this.beweegNaar((LeegVakje) buurVakje);
         }
     }
 
-    private Positie getNieuwePositie(KeyEvent e) {
-
-        Positie nieuwePositie = null;
-        Positie huidigePositie = this.huidigVakje.positie;
-
+    private void setRichting(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_DOWN:
                 richting = Richting.OMLAAG;
-                nieuwePositie = new Positie(huidigePositie.x, huidigePositie.y + 1);
                 break;
             case KeyEvent.VK_UP:
                 richting = Richting.OMHOOG;
-                nieuwePositie = new Positie(huidigePositie.x, huidigePositie.y - 1);
                 break;
             case KeyEvent.VK_LEFT:
                 richting = Richting.LINKS;
-                nieuwePositie = new Positie(huidigePositie.x - 1, huidigePositie.y);
                 break;
             case KeyEvent.VK_RIGHT:
                 richting = Richting.RECHTS;
-                nieuwePositie = new Positie(huidigePositie.x + 1, huidigePositie.y);
                 break;
         }
-
-        return nieuwePositie;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if (!arrowKeyPressed) {
-            Positie buurPositie = getNieuwePositie(e);
-
-            if (buurPositie != null) {
-                this.controleerBuurvakje(buurPositie);
-            }
+            this.setRichting(e);
+            this.controleerBuurvakje(richting);
         }
         arrowKeyPressed = true;
     }

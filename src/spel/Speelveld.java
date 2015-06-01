@@ -42,10 +42,10 @@ public class Speelveld extends JPanel {
                 repaint();
             }
         });
-        
+
         int breedte = 5;
         int hoogte = 5;
-        
+
         int[][] levelInfo = {
             {1, 1, 1, 2, 1},
             {0, 3, 0, 0, 1},
@@ -57,7 +57,7 @@ public class Speelveld extends JPanel {
         initLevel(levelInfo);
 
         this.repaint();
-        
+
         this.spelStatus = SpelStatus.GEPAUZEERD;
     }
 
@@ -68,14 +68,14 @@ public class Speelveld extends JPanel {
             for (int j = 0; j < 5; j++) {
                 Positie nieuwePositie = new Positie(i + 1, j + 1);
                 Vakje nieuwVakje = null;
-                
-                switch(levelInfo[i][j]) {
+
+                switch (levelInfo[i][j]) {
                     case 0:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         break;
                     case 1:
-                       nieuwVakje = new Muur(nieuwePositie);
-                       break;
+                        nieuwVakje = new Muur(nieuwePositie);
+                        break;
                     case 2:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         initPacman((LeegVakje) nieuwVakje);
@@ -85,13 +85,13 @@ public class Speelveld extends JPanel {
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         Spookje spookje = new Spookje(nieuwVakje);
                         ((LeegVakje) nieuwVakje).toevoegenPoppetje(spookje);
-                    
+
                         // Voeg toe aan de array
                         spookjes.add(spookje);
                         break;
-                        
+
                 }
-              
+
                 level[i][j] = nieuwVakje;
             }
         }
