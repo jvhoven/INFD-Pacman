@@ -8,6 +8,7 @@ package spel.levelelementen;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import spel.Richting;
+import spel.Speelveld;
 
 /**
  *
@@ -19,7 +20,7 @@ public abstract class Vakje {
 
     public Positie positie;
     public HashMap<Richting, Vakje> buurVakjes;
-
+    
     public Vakje getBuurVakje(Richting richting) {
         return buurVakjes.get(richting);
     }

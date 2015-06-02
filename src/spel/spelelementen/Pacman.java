@@ -18,8 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import spel.Richting;
+import spel.Speelveld;
 import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Positie;
 import spel.levelelementen.Vakje;
 
 /**
@@ -27,12 +27,13 @@ import spel.levelelementen.Vakje;
  * @author Hans
  */
 public class Pacman extends Poppetje implements KeyListener {
-
+    
     private boolean arrowKeyPressed = false;
     private BufferedImage pacmanPlaatje = null;
     private Richting richting;
 
-    public Pacman(LeegVakje startVakje) {
+    public Pacman(Speelveld speelveld, LeegVakje startVakje) {
+        this.speelveld = speelveld;
         this.huidigVakje = startVakje;
         this.richting = Richting.NEUTRAAL;
 
@@ -49,7 +50,7 @@ public class Pacman extends Poppetje implements KeyListener {
         } catch (URISyntaxException ex) {
             Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }       
 
     @Override
     public void teken(Graphics2D g) {

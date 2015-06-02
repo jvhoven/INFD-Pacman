@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import spel.Speelveld;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
 
@@ -26,8 +27,9 @@ public class Spookje extends Poppetje {
 
     private BufferedImage spookPlaatje = null;
 
-    public Spookje(Vakje startVakje){
-        setHuidigVakje((LeegVakje) startVakje);
+    public Spookje(Speelveld speelveld, LeegVakje startVakje){
+        this.speelveld = speelveld;
+        setHuidigVakje(startVakje);
 
         try {
             ClassLoader classLoader = getClass().getClassLoader();

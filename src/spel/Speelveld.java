@@ -23,8 +23,6 @@ public class Speelveld extends JPanel {
     private ArrayList<Spookje> spookjes = new ArrayList<>();
     private Pacman pacman = null;
 
-    private Timer gameTimer = null;
-
     public Speelveld() {
         super();
 
@@ -36,16 +34,20 @@ public class Speelveld extends JPanel {
     }
 
     private void initialiseer() {
-        gameTimer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                repaint();
-            }
-        });
-
         int breedte = 5;
         int hoogte = 5;
 
+        int[][] levelInfo = getLevelInfo();
+
+        initLevel(levelInfo);
+        setBuurvakjesLevel();
+
+        this.repaint();
+
+        this.spelStatus = SpelStatus.GEPAUZEERD;
+    }
+    
+    public int[][] getLevelInfo(){
         int[][] levelInfo = {
             {1, 1, 1, 2, 1},
             {0, 3, 0, 0, 1},
@@ -53,12 +55,8 @@ public class Speelveld extends JPanel {
             {0, 3, 0, 3, 1},
             {1, 1, 1, 1, 1}
         };
-
-        initLevel(levelInfo);
-
-        this.repaint();
-
-        this.spelStatus = SpelStatus.GEPAUZEERD;
+        
+        return levelInfo;
     }
 
     public void initLevel(int[][] levelInfo) {
@@ -78,12 +76,12 @@ public class Speelveld extends JPanel {
                         break;
                     case 2:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        initPacman((LeegVakje) nieuwVakje);
+                        this.pacman = new Pacman(this, (LeegVakje)nieuwVakje);
                         ((LeegVakje) nieuwVakje).toevoegenPoppetje(pacman);
                         break;
                     case 3:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        Spookje spookje = new Spookje(nieuwVakje);
+                        Spookje spookje = new Spookje(this, (LeegVakje)nieuwVakje);
                         ((LeegVakje) nieuwVakje).toevoegenPoppetje(spookje);
 
                         // Voeg toe aan de array
@@ -95,17 +93,14 @@ public class Speelveld extends JPanel {
                 level[i][j] = nieuwVakje;
             }
         }
+    }
 
+    public void setBuurvakjesLevel() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 level[i][j].setBuurVakjes(level);
             }
         }
-    }
-
-    public void initPacman(LeegVakje startVakje) {
-        this.pacman = new Pacman(startVakje);
-        //this.addKeyListener(pacman);
     }
 
     private void teken(Graphics2D g) {
@@ -127,13 +122,11 @@ public class Speelveld extends JPanel {
     }
 
     public void start() {
-        this.gameTimer.start();
         this.spelStatus = SpelStatus.GESTART;
         this.addKeyListener(pacman);
     }
 
     public void pauzeer() {
-        this.gameTimer.stop();
         this.spelStatus = SpelStatus.GEPAUZEERD;
         this.removeKeyListener(pacman);
     }

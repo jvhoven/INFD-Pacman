@@ -6,6 +6,7 @@
 package spel.spelelementen;
 
 import java.awt.Graphics2D;
+import spel.Speelveld;
 import spel.levelelementen.LeegVakje;
 
 /**
@@ -13,6 +14,7 @@ import spel.levelelementen.LeegVakje;
  * @author Hans
  */
 public abstract class Poppetje{
+    protected Speelveld speelveld;
     protected LeegVakje huidigVakje;
     
     public abstract void teken(Graphics2D g);
@@ -20,6 +22,7 @@ public abstract class Poppetje{
     public void beweegNaar(LeegVakje vakje){
         this.huidigVakje.verwijderPoppetje(this);
         vakje.toevoegenPoppetje(this);
+        speelveld.repaint();
     }
     
     public void setHuidigVakje(LeegVakje vakje){
