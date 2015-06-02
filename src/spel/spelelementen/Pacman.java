@@ -27,7 +27,7 @@ import spel.levelelementen.Vakje;
  * @author Hans
  */
 public class Pacman extends Poppetje implements KeyListener {
-    
+
     private boolean arrowKeyPressed = false;
     private BufferedImage pacmanPlaatje = null;
     private Richting richting;
@@ -50,7 +50,7 @@ public class Pacman extends Poppetje implements KeyListener {
         } catch (URISyntaxException ex) {
             Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }       
+    }
 
     @Override
     public void teken(Graphics2D g) {
@@ -84,12 +84,7 @@ public class Pacman extends Poppetje implements KeyListener {
         return pacmanOrientatie;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    private void controleerBuurvakje(Richting richting) {
+    private void probeerTeBewegen(Richting richting) {
         Vakje buurVakje = this.huidigVakje.getBuurVakje(richting);
 
         if (buurVakje != null && buurVakje instanceof LeegVakje) {
@@ -115,10 +110,15 @@ public class Pacman extends Poppetje implements KeyListener {
     }
 
     @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
         if (!arrowKeyPressed) {
             this.setRichting(e);
-            this.controleerBuurvakje(richting);
+            this.probeerTeBewegen(richting);
         }
         arrowKeyPressed = true;
     }

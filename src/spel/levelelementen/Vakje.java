@@ -8,7 +8,6 @@ package spel.levelelementen;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import spel.Richting;
-import spel.Speelveld;
 
 /**
  *
