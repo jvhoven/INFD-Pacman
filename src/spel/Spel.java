@@ -1,6 +1,7 @@
 package spel;
 
 
+import spel.enums.SpelStatus;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 

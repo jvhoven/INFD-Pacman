@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import spel.interfaces.Eetbaar;
+import spel.interfaces.Inhoud;
 import spel.spelelementen.Poppetje;
 
 /**
@@ -17,25 +19,39 @@ import spel.spelelementen.Poppetje;
  */
 public class LeegVakje extends Vakje {
 
-    ArrayList<Poppetje> poppetjes;
+    ArrayList<Inhoud> elementen;
 
     public LeegVakje(Positie positie) {
         this.positie = positie;
-        this.poppetjes = new ArrayList();        
+        this.elementen = new ArrayList();        
         this.buurVakjes = new HashMap<>();
     }
 
-    public void verwijderPoppetje(Poppetje p) {
-        if (this.poppetjes.contains(p)) {
-            this.poppetjes.remove(p);
+    public void verwijderInhoud(Inhoud p) {
+        if (this.elementen.contains(p)) {
+            this.elementen.remove(p);
         }
     }
 
-    public void toevoegenPoppetje(Poppetje p) {
-        if (!this.poppetjes.contains(p)) {
-            this.poppetjes.add(p);
-            p.setHuidigVakje(this);
+    public void toevoegenInhoud(Inhoud p) {
+        if (!this.elementen.contains(p)) {
+            this.elementen.add(p);
+            
+            if(p instanceof Poppetje) {
+                Poppetje poppetje = (Poppetje) p;
+                poppetje.setHuidigVakje(this);
+            }
         }
+    }
+    
+    public Inhoud getInhoud() {
+        for(Inhoud inhoud : elementen) {
+            if(inhoud instanceof Eetbaar) {
+                return inhoud;
+            }
+        }
+        
+        return null;
     }
 
     @Override
@@ -50,7 +66,7 @@ public class LeegVakje extends Vakje {
         g.setColor(Color.black);
         g.drawString(positie.y + ", " + positie.x, startPositieX + 10, startPositieY + 10);
         
-        for (Poppetje p : this.poppetjes) {
+        for (Inhoud p : this.elementen) {
             p.teken(g);
         }
     }

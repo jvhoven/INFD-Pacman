@@ -1,5 +1,8 @@
 package spel;
 
+import spel.enums.SpelStatus;
+import spel.enums.ElementType;
+import spel.spelelementen.Bolletje;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -47,7 +50,7 @@ public class Speelveld extends JPanel {
     public int[][] getLevelInfo(){
         int[][] levelInfo = {
             {1, 1, 1, 2, 1},
-            {0, 3, 0, 0, 1},
+            {0, 3, 0, 4, 1},
             {0, 1, 3, 1, 1},
             {0, 3, 0, 3, 1},
             {1, 1, 1, 1, 1}
@@ -65,26 +68,30 @@ public class Speelveld extends JPanel {
                 Vakje nieuwVakje = null;
 
                 switch (levelInfo[i][j]) {
-                    case 0:
+                    case ElementType.LEEG_VAKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         break;
-                    case 1:
+                    case ElementType.MUUR:
                         nieuwVakje = new Muur(nieuwePositie);
                         break;
-                    case 2:
+                    case ElementType.PACMAN:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         this.pacman = new Pacman(this, (LeegVakje)nieuwVakje);
-                        ((LeegVakje) nieuwVakje).toevoegenPoppetje(pacman);
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(pacman);
                         break;
-                    case 3:
+                    case ElementType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         Spookje spookje = new Spookje(this, (LeegVakje)nieuwVakje);
-                        ((LeegVakje) nieuwVakje).toevoegenPoppetje(spookje);
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(spookje);
 
                         // Voeg toe aan de array
                         spookjes.add(spookje);
                         break;
-
+                    case ElementType.BOLLETJE:
+                        nieuwVakje = new LeegVakje(nieuwePositie);
+                        Bolletje bolletje = new Bolletje((LeegVakje)nieuwVakje);
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(bolletje);
+                        break;
                 }
 
                 level[i][j] = nieuwVakje;

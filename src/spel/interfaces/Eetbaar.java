@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spel;
+package spel.interfaces;
+
 
 /**
  *
  * @author Jeffrey
  */
-public enum SpelStatus {
-    GEPAUZEERD,
-    GESTART
+public interface Eetbaar {
+    
+    public int score = 0;
+    
+    public int opeten();
 }

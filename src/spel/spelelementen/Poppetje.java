@@ -7,21 +7,23 @@ package spel.spelelementen;
 
 import java.awt.Graphics2D;
 import spel.Speelveld;
+import spel.interfaces.Inhoud;
 import spel.levelelementen.LeegVakje;
 
 /**
  *
  * @author Hans
  */
-public abstract class Poppetje{
+public abstract class Poppetje implements Inhoud{
     protected Speelveld speelveld;
     protected LeegVakje huidigVakje;
     
+    @Override
     public abstract void teken(Graphics2D g);
     
     public void beweegNaar(LeegVakje vakje){
-        this.huidigVakje.verwijderPoppetje(this);
-        vakje.toevoegenPoppetje(this);
+        this.huidigVakje.verwijderInhoud(this);
+        vakje.toevoegenInhoud(this);
         speelveld.repaint();
     }
     

@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import spel.Richting;
 import spel.Speelveld;
+import spel.interfaces.Eetbaar;
+import spel.interfaces.Inhoud;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
 
@@ -88,7 +90,15 @@ public class Pacman extends Poppetje implements KeyListener {
         Vakje buurVakje = this.huidigVakje.getBuurVakje(richting);
 
         if (buurVakje != null && buurVakje instanceof LeegVakje) {
-            this.beweegNaar((LeegVakje) buurVakje);
+            LeegVakje target = (LeegVakje) buurVakje;
+            this.beweegNaar(target);
+            
+            // Als het een eetbaar object is
+            Inhoud inhoud = target.getInhoud();
+            if(inhoud instanceof Eetbaar) {
+                Eetbaar eetbaar = (Eetbaar) inhoud;
+                eetbaar.opeten();
+            }
         }
     }
 
