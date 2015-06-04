@@ -17,19 +17,19 @@ import spel.levelelementen.Vakje;
  * @author Jeffrey
  */
 public class Bolletje implements Eetbaar, Inhoud {
-    
+
     LeegVakje huidigVakje;
-    
-    public Bolletje(LeegVakje startVakje){
+
+    public Bolletje(LeegVakje startVakje) {
         this.huidigVakje = startVakje;
     }
-    
+
     @Override
     public void teken(Graphics2D g) {
         if (huidigVakje != null) {
             int x = huidigVakje.positie.x * Vakje.SIZE - Vakje.SIZE + 5;
             int y = huidigVakje.positie.y * Vakje.SIZE - Vakje.SIZE + 5;
-            
+
             g.setColor(new Color(101, 109, 120));
             g.fillOval(x + 35, y + 35, 20, 20);
         }
@@ -37,7 +37,12 @@ public class Bolletje implements Eetbaar, Inhoud {
 
     @Override
     public int opeten() {
-        System.out.println("Ik ben opgegeten!");
+        this.huidigVakje.verwijderInhoud(this);
+        return getPunten();
+    }
+
+    @Override
+    public int getPunten() {
         return 10;
     }
 }

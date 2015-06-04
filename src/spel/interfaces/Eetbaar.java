@@ -5,14 +5,13 @@
  */
 package spel.interfaces;
 
-
 /**
  *
  * @author Jeffrey
  */
 public interface Eetbaar {
-    
-    public int score = 0;
-    
+
     public int opeten();
+
+    public int getPunten();
 }

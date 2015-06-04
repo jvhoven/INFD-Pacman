@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import javax.swing.JPanel;
 import spel.levelelementen.*;
 import spel.spelelementen.*;
@@ -18,14 +17,17 @@ import spel.spelelementen.*;
  */
 public class Speelveld extends JPanel {
 
+    private Spel spel = null;
     private SpelStatus spelStatus = null;
     private Vakje[][] level = null;
-    private ArrayList<Spookje> spookjes = new ArrayList<>();
     private Pacman pacman = null;
+    private int huidigeScore = 0;
 
-    public Speelveld() {
+    public Speelveld(Spel spel) {
         super();
 
+        this.spel = spel;
+        
         setPreferredSize(new Dimension(500, 500));
         setFocusable(true);
         requestFocus();
@@ -35,7 +37,7 @@ public class Speelveld extends JPanel {
 
     private void initialiseer() {
         int breedte = 5;
-        int hoogte = 5;
+        int hoogte = 5;        
 
         int[][] levelInfo = getLevelInfo();
 
@@ -45,17 +47,19 @@ public class Speelveld extends JPanel {
         this.repaint();
 
         this.spelStatus = SpelStatus.GEPAUZEERD;
+        this.huidigeScore = 0;
+        this.spel.showScore(huidigeScore);
     }
-    
-    public int[][] getLevelInfo(){
+
+    public int[][] getLevelInfo() {
         int[][] levelInfo = {
             {1, 1, 1, 2, 1},
-            {0, 3, 0, 4, 1},
-            {0, 1, 3, 1, 1},
-            {0, 3, 0, 3, 1},
+            {4, 3, 4, 4, 1},
+            {4, 1, 3, 1, 1},
+            {4, 3, 4, 3, 1},
             {1, 1, 1, 1, 1}
         };
-        
+
         return levelInfo;
     }
 
@@ -76,21 +80,17 @@ public class Speelveld extends JPanel {
                         break;
                     case ElementType.PACMAN:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        this.pacman = new Pacman(this, (LeegVakje)nieuwVakje);
+                        this.pacman = new Pacman(this, (LeegVakje) nieuwVakje);
                         ((LeegVakje) nieuwVakje).toevoegenInhoud(pacman);
                         break;
                     case ElementType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        Spookje spookje = new Spookje(this, (LeegVakje)nieuwVakje);
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(spookje);
-
-                        // Voeg toe aan de array
-                        spookjes.add(spookje);
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Spookje(this, (LeegVakje) nieuwVakje));
                         break;
                     case ElementType.BOLLETJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        Bolletje bolletje = new Bolletje((LeegVakje)nieuwVakje);
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(bolletje);
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
                         break;
                 }
 
@@ -137,10 +137,16 @@ public class Speelveld extends JPanel {
 
     public void reset() {
         this.pauzeer();
-        this.initialiseer();
+        this.initialiseer();        
     }
 
     public SpelStatus getSpelStatus() {
         return this.spelStatus;
+    }
+    
+    public void addPunten(int punten){
+        this.huidigeScore += punten;
+        
+        spel.showScore(huidigeScore);
     }
 }

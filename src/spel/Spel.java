@@ -38,7 +38,7 @@ public class Spel extends JFrame {
         gui = new GUI(this);        
         add(gui, BorderLayout.NORTH);
         
-        speelveld = new Speelveld();
+        speelveld = new Speelveld(this);
         add(speelveld, BorderLayout.CENTER);        
         
         setVisible(true);
@@ -55,6 +55,10 @@ public class Spel extends JFrame {
     }    
     
     public void reset(){
-        speelveld.reset();
+        speelveld.reset();        
+    }
+    
+    public void showScore(int huidigeScore){
+        this.gui.scoreLabel.setText("Score: " + Integer.toString(huidigeScore));
     }
 }

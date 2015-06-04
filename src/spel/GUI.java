@@ -3,6 +3,7 @@ package spel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /*
@@ -16,8 +17,9 @@ import javax.swing.JPanel;
  */
 public class GUI extends JPanel {
 
-    JButton startButton = null;
-    JButton resetButton = null;
+    public JButton startButton = null;
+    public JButton resetButton = null;
+    public JLabel scoreLabel = null;
 
     public GUI(Spel spel) {
         startButton = new JButton("Start");
@@ -43,6 +45,10 @@ public class GUI extends JPanel {
         });
         this.add(resetButton);
 
+        scoreLabel = new JLabel("Score: 0");
+        
+        this.add(scoreLabel);
+        
         this.setFocusable(false);
     }
 }

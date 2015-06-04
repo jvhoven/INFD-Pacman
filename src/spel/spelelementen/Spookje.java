@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import spel.Speelveld;
+import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
 
@@ -23,7 +24,7 @@ import spel.levelelementen.Vakje;
  *
  * @author Hans
  */
-public class Spookje extends Poppetje {
+public class Spookje extends Poppetje implements Eetbaar{
 
     private BufferedImage spookPlaatje = null;
 
@@ -62,6 +63,17 @@ public class Spookje extends Poppetje {
                 g.drawImage(spookPlaatje, x + (width / 4) - 5, y + (height / 4), width / 2, height / 2, null);
             }
         }
+    }
+
+    @Override
+    public int opeten() {
+        this.huidigVakje.verwijderInhoud(this);
+        return getPunten();
+    }
+
+    @Override
+    public int getPunten() {
+        return 200;
     }
 
 }

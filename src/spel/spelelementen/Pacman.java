@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -92,13 +93,21 @@ public class Pacman extends Poppetje implements KeyListener {
         if (buurVakje != null && buurVakje instanceof LeegVakje) {
             LeegVakje target = (LeegVakje) buurVakje;
             this.beweegNaar(target);
-            
-            // Als het een eetbaar object is
-            Inhoud inhoud = target.getInhoud();
-            if(inhoud instanceof Eetbaar) {
-                Eetbaar eetbaar = (Eetbaar) inhoud;
-                eetbaar.opeten();
+            verwerkInhoudHuidigVakje();
+        }
+    }
+
+    public void verwerkInhoudHuidigVakje() {
+        // Als het een eetbaar object is
+        ArrayList<Eetbaar> eetbareInhoud = huidigVakje.getEetbareInhoud();
+
+        for (Eetbaar e : eetbareInhoud) {
+            if (e instanceof Spookje) {
+                System.out.println("Ik eet een spookje");
             }
+
+            int punten = e.opeten();
+            speelveld.addPunten(punten);
         }
     }
 

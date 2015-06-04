@@ -23,35 +23,36 @@ public class LeegVakje extends Vakje {
 
     public LeegVakje(Positie positie) {
         this.positie = positie;
-        this.elementen = new ArrayList();        
+        this.elementen = new ArrayList();
         this.buurVakjes = new HashMap<>();
     }
 
-    public void verwijderInhoud(Inhoud p) {
-        if (this.elementen.contains(p)) {
-            this.elementen.remove(p);
+    public void verwijderInhoud(Inhoud inhoud) {
+        if (this.elementen.contains(inhoud)) {
+            this.elementen.remove(inhoud);
         }
     }
 
-    public void toevoegenInhoud(Inhoud p) {
-        if (!this.elementen.contains(p)) {
-            this.elementen.add(p);
-            
-            if(p instanceof Poppetje) {
-                Poppetje poppetje = (Poppetje) p;
+    public void toevoegenInhoud(Inhoud inhoud) {
+        if (!this.elementen.contains(inhoud)) {
+            this.elementen.add(inhoud);
+
+            if (inhoud instanceof Poppetje) {
+                Poppetje poppetje = (Poppetje) inhoud;
                 poppetje.setHuidigVakje(this);
             }
         }
     }
-    
-    public Inhoud getInhoud() {
-        for(Inhoud inhoud : elementen) {
-            if(inhoud instanceof Eetbaar) {
-                return inhoud;
+
+    public ArrayList<Eetbaar> getEetbareInhoud() {
+        ArrayList<Eetbaar> eetbareElementen = new ArrayList<>();
+
+        for (Inhoud e : elementen) {
+            if (e instanceof Eetbaar) {
+                eetbareElementen.add((Eetbaar) e);
             }
         }
-        
-        return null;
+        return eetbareElementen;
     }
 
     @Override
@@ -62,10 +63,10 @@ public class LeegVakje extends Vakje {
         int startPositieY = positie.y * SIZE - SIZE + 1;
 
         g.fillRect(startPositieX, startPositieY, SIZE - 2, SIZE - 2);
-        
+
         g.setColor(Color.black);
         g.drawString(positie.y + ", " + positie.x, startPositieX + 10, startPositieY + 10);
-        
+
         for (Inhoud p : this.elementen) {
             p.teken(g);
         }
