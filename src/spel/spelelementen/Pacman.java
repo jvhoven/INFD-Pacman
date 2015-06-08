@@ -1,127 +1,158 @@
+/*
+ * Decompiled with CFR 0_101.
+ */
 package spel.spelelementen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
-import spel.enums.Richting;
+import javax.swing.Timer;
 import spel.Speelveld;
 import spel.enums.Afbeelding;
+import spel.enums.Richting;
 import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
+import spel.levelelementen.Positie;
 import spel.levelelementen.Vakje;
+import spel.spelelementen.Bolletje;
+import spel.spelelementen.Poppetje;
+import spel.spelelementen.Spookje;
 
-/**
- *
- * @author Hans
- */
-public class Pacman extends Poppetje implements KeyListener {
-
+public class Pacman
+extends Poppetje
+implements KeyListener {
     private boolean arrowKeyPressed = false;
     private BufferedImage pacmanPlaatje = null;
     private Richting richting;
+    private int levens = 0;
+    private boolean isImmuun = false;
+    private Timer immuunTimer = null;
 
-    public Pacman(Speelveld speelveld, LeegVakje startVakje) {
+    public int getLevens() {
+        return this.levens;
+    }
+
+    public void verwijderLeven() {
+        --this.levens;
+        if (this.levens > 0) {
+            this.speelveld.resetPositiePoppetjes();
+        }
+    }
+
+    public Pacman(Speelveld speelveld) {
         this.speelveld = speelveld;
-        this.huidigVakje = startVakje;
         this.richting = Richting.NEUTRAAL;
-        
-        Afbeelding afbeelding = Afbeelding.PACMAN;
-        pacmanPlaatje = afbeelding.getAfbeelding();
+        this.levens = 3;
+        this.isImmuun = false;
+        this.immuunTimer = new Timer(10000, new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Pacman.this.immuunTimer.stop();
+                Pacman.this.isImmuun = false;
+            }
+        });
+        this.pacmanPlaatje = Afbeelding.PACMAN.getAfbeelding();
     }
 
     @Override
     public void teken(Graphics2D g) {
-
-        if (huidigVakje != null) {
-                        
-            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE);
-            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE);
-            if (pacmanPlaatje == null) {
+        if (this.huidigVakje != null) {
+            int x = this.huidigVakje.positie.x * 43 - 43;
+            int y = this.huidigVakje.positie.y * 43 - 43;
+            if (this.pacmanPlaatje == null) {
                 g.setColor(Color.yellow);
-                g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
+                g.fillOval(x, y, 33, 33);
             } else {
-
-                BufferedImage afbeelding = setOrientatie();
-                g.drawImage(afbeelding, x, y, Vakje.SIZE, Vakje.SIZE, null);
+                BufferedImage afbeelding = this.setOrientatie();
+                g.drawImage(afbeelding, x, y, 43, 43, null);
             }
         }
     }
 
     private BufferedImage setOrientatie() {
-
-        int width = pacmanPlaatje.getWidth() / 2;
-        int height = pacmanPlaatje.getHeight() / 2;
-
-        BufferedImage pacmanOrientatie = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        int width = this.pacmanPlaatje.getWidth() / 2;
+        int height = this.pacmanPlaatje.getHeight() / 2;
+        BufferedImage pacmanOrientatie = new BufferedImage(width, height, 2);
         Graphics2D bg = pacmanOrientatie.createGraphics();
-
-        bg.rotate(richting.getGraden(), width / 2, height / 2);
-        bg.drawImage(pacmanPlaatje, 0, 0, width, height, null);
+        bg.rotate(this.richting.getGraden(), width / 2, height / 2);
+        bg.drawImage(this.pacmanPlaatje, 0, 0, width, height, null);
         bg.dispose();
-
         return pacmanOrientatie;
     }
 
     private void probeerTeBewegen(Richting richting) {
         Vakje buurVakje = this.huidigVakje.getBuurVakje(richting);
-
         if (buurVakje != null && buurVakje instanceof LeegVakje) {
-            LeegVakje target = (LeegVakje) buurVakje;
+            LeegVakje target = (LeegVakje)buurVakje;
             this.beweegNaar(target);
-            verwerkInhoudHuidigVakje();
+            this.verwerkInhoudHuidigVakje();
         }
     }
 
     public void verwerkInhoudHuidigVakje() {
-        // Als het een eetbaar object is
-        ArrayList<Eetbaar> eetbareInhoud = huidigVakje.getEetbareInhoud();
-
+        ArrayList<Eetbaar> eetbareInhoud = this.huidigVakje.getEetbareSpelElementen();
         for (Eetbaar e : eetbareInhoud) {
+            int punten;
             if (e instanceof Spookje) {
-                System.out.println("Ik eet een spookje");
+                if (this.isImmuun) {
+                    punten = e.opeten();
+                    this.speelveld.addPunten(punten);
+                    continue;
+                }
+                this.verwijderLeven();
+                continue;
             }
-
-            int punten = e.opeten();
-            speelveld.addPunten(punten);
+            if (!(e instanceof Bolletje)) continue;
+            punten = e.opeten();
+            this.speelveld.addPunten(punten);
         }
     }
 
     private void setRichting(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_DOWN:
-                richting = Richting.OMLAAG;
+            case 40: {
+                this.richting = Richting.OMLAAG;
                 break;
-            case KeyEvent.VK_UP:
-                richting = Richting.OMHOOG;
+            }
+            case 38: {
+                this.richting = Richting.OMHOOG;
                 break;
-            case KeyEvent.VK_LEFT:
-                richting = Richting.LINKS;
+            }
+            case 37: {
+                this.richting = Richting.LINKS;
                 break;
-            case KeyEvent.VK_RIGHT:
-                richting = Richting.RECHTS;
-                break;
+            }
+            case 39: {
+                this.richting = Richting.RECHTS;
+            }
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!arrowKeyPressed) {
+        if (!this.arrowKeyPressed) {
             this.setRichting(e);
-            this.probeerTeBewegen(richting);
+            this.probeerTeBewegen(this.richting);
         }
-        arrowKeyPressed = true;
+        this.arrowKeyPressed = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        arrowKeyPressed = false;
+        this.arrowKeyPressed = false;
     }
+
 }
+

@@ -1,136 +1,78 @@
+/*
+ * Decompiled with CFR 0_101.
+ */
 package spel;
 
-import spel.enums.SpelStatus;
-import spel.enums.VakjeType;
-import spel.spelelementen.Bolletje;
+import AIs.AI;
+import AIs.RandomAI;
+import AIs.SmartAI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.JPanel;
+import spel.LevelManager;
+import spel.Spel;
 import spel.enums.Afbeelding;
-import spel.levelelementen.*;
-import spel.spelelementen.*;
+import spel.enums.SpelStatus;
+import spel.levelelementen.Vakje;
+import spel.spelelementen.Pacman;
+import spel.spelelementen.Spookje;
 
-/**
- *
- * @author Jeffrey
- */
-public class Speelveld extends JPanel {
-
+public class Speelveld
+extends JPanel {
     private Spel spel = null;
     private SpelStatus spelStatus = null;
+    private int huidigeScore = 0;
+    LevelManager levelManager = null;
     private Vakje[][] level = null;
     private Pacman pacman = null;
-    private int huidigeScore = 0;
-     
-    
-    
-    // Meerdere afbeeldingen voor spookjes
-    Queue<Afbeelding> spookjes = new LinkedList<>(Arrays.asList(Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE));
-    
+    private ArrayList<Spookje> spookjes = null;
+    Queue<Afbeelding> spookjesAfbeeldingen = new LinkedList<Afbeelding>(Arrays.asList(new Afbeelding[]{Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE}));
+
     public Speelveld(Spel spel) {
-        super();
-
         this.spel = spel;
-        
-        setPreferredSize(new Dimension(500, 500));
-        setFocusable(true);
-        requestFocus();
-
-        initialiseer();
+        this.spelStatus = SpelStatus.GEPAUZEERD;
+        this.huidigeScore = 0;
+        this.spel.showScore(this.huidigeScore);
+        this.setPreferredSize(new Dimension(500, 500));
+        this.setFocusable(true);
+        this.requestFocus();
+        this.initialiseer();
     }
 
     private void initialiseer() {
-
-        int[][] levelInfo = getLevelInfo();
-
-        initLevel(levelInfo);
-        setBuurvakjesLevel();
-
+        this.levelManager = new LevelManager();
+        this.pacman = new Pacman(this);
+        Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
+        spookje1.setAI(new RandomAI(spookje1));
+        Spookje spookje2 = new Spookje(this, Afbeelding.SPOOK_ROOD);
+        spookje2.setAI(new SmartAI(spookje2));
+        Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
+        spookje3.setAI(new SmartAI(spookje3));
+        this.spookjes = new ArrayList();
+        this.spookjes.add(spookje1);
+        this.spookjes.add(spookje2);
+        this.spookjes.add(spookje3);
+        this.level = this.levelManager.getLevel(this.pacman, this.spookjes);
         this.repaint();
-
-        this.spelStatus = SpelStatus.GEPAUZEERD;
-        this.huidigeScore = 0;
-        this.spel.showScore(huidigeScore);
     }
 
-    public int[][] getLevelInfo() {
-        int[][] levelInfo = {
-            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-            { 1, 2, 3, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-        };
-
-        return levelInfo;
-    }
-
-    public void initLevel(int[][] levelInfo) {
-        level = new Vakje[15][15];
-
-        for (int x = 0; x < 15; x++) {
-            for (int y = 0; y < 15; y++) {
-                Positie nieuwePositie = new Positie(x + 1, y + 1);
-                Vakje nieuwVakje = null;
-
-                switch (levelInfo[y][x]) {
-                    case VakjeType.LEEG_VAKJE:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
-                        break;
-                    case VakjeType.MUUR:
-                        nieuwVakje = new Muur(nieuwePositie);
-                        break;
-                    case VakjeType.PACMAN:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
-                        this.pacman = new Pacman(this, (LeegVakje) nieuwVakje);
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(pacman);
-                        break;
-                    case VakjeType.SPOOKJE:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Spookje(this, (LeegVakje) nieuwVakje, spookjes.poll()));
-                        break;
-                    case VakjeType.BOLLETJE:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
-                        break;
-                }
-
-                level[x][y] = nieuwVakje;
-            }
-        }
-    }
-
-    public void setBuurvakjesLevel() {
-        for (int x = 0; x < 15; x++) {
-            for (int y = 0; y < 15; y++) {
-                level[x][y].setBuurVakjes(level);
-            }
-        }
+    public void resetPositiePoppetjes() {
+        this.levelManager.resetPosities(this.level, this.pacman, this.spookjes);
     }
 
     private void teken(Graphics2D g) {
-
         this.setBackground(new Color(224, 224, 224));
-
-        for (int x = 0; x < 15; x++) {
-            for (int y = 0; y < 15; y++) {
-                level[x][y].teken(g);
+        for (int x = 0; x < 15; ++x) {
+            for (int y = 0; y < 15; ++y) {
+                this.level[x][y].teken(g);
             }
         }
     }
@@ -138,32 +80,37 @@ public class Speelveld extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        this.teken((Graphics2D) g);
+        this.teken((Graphics2D)g);
     }
 
     public void start() {
         this.spelStatus = SpelStatus.GESTART;
-        this.addKeyListener(pacman);
+        this.addKeyListener(this.pacman);
+        for (Spookje spookje : this.spookjes) {
+            spookje.startAI();
+        }
     }
 
     public void pauzeer() {
         this.spelStatus = SpelStatus.GEPAUZEERD;
-        this.removeKeyListener(pacman);
+        this.removeKeyListener(this.pacman);
+        for (Spookje spookje : this.spookjes) {
+            spookje.stopAI();
+        }
     }
 
     public void reset() {
         this.pauzeer();
-        this.initialiseer();        
+        this.initialiseer();
     }
 
     public SpelStatus getSpelStatus() {
         return this.spelStatus;
     }
-    
-    public void addPunten(int punten){
-        this.huidigeScore += punten;
-        
-        spel.showScore(huidigeScore);
+
+    public void addPunten(int punten) {
+        this.huidigeScore+=punten;
+        this.spel.showScore(this.huidigeScore);
     }
 }
+

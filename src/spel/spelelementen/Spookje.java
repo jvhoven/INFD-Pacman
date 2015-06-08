@@ -1,56 +1,45 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Decompiled with CFR 0_101.
  */
 package spel.spelelementen;
 
+import AIs.AI;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import spel.Speelveld;
 import spel.enums.Afbeelding;
 import spel.interfaces.Eetbaar;
+import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Vakje;
+import spel.levelelementen.Positie;
+import spel.spelelementen.Poppetje;
 
-/**
- *
- * @author Hans
- */
-public class Spookje extends Poppetje implements Eetbaar{
-
+public class Spookje
+extends Poppetje
+implements Eetbaar {
     private BufferedImage spookPlaatje = null;
+    private AI ai = null;
 
-    public Spookje(Speelveld speelveld, LeegVakje startVakje){
+    public Spookje(Speelveld speelveld, Afbeelding afbeelding) {
         this.speelveld = speelveld;
-        setHuidigVakje(startVakje);
-
-        Afbeelding afbeelding = Afbeelding.SPOOK_BLAUW;
-        spookPlaatje = afbeelding.getAfbeelding();
-    }
-    
-    public Spookje(Speelveld speelveld, LeegVakje startVakje, Afbeelding afbeelding) {
-        this.speelveld = speelveld;
-        setHuidigVakje(startVakje);
-        spookPlaatje = afbeelding.getAfbeelding();
+        this.spookPlaatje = afbeelding.getAfbeelding();
     }
 
     @Override
     public void teken(Graphics2D g) {
-
-        if (huidigVakje != null) {
-            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE);
-            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE);
-            if (spookPlaatje == null) {
+        if (this.huidigVakje != null) {
+            int x = this.huidigVakje.positie.x * 43 - 43;
+            int y = this.huidigVakje.positie.y * 43 - 43;
+            if (this.spookPlaatje == null) {
                 g.setColor(Color.blue);
-                g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
-            } else {                
-                
-                int width = spookPlaatje.getWidth();
-                int height = spookPlaatje.getHeight();
-                
-                g.drawImage(spookPlaatje, x, y, Vakje.SIZE, Vakje.SIZE, null);
+                g.fillOval(x, y, 33, 33);
+            } else {
+                int width = this.spookPlaatje.getWidth();
+                int height = this.spookPlaatje.getHeight();
+                g.drawImage(this.spookPlaatje, x, y, 43, 43, null);
             }
         }
     }
@@ -58,7 +47,7 @@ public class Spookje extends Poppetje implements Eetbaar{
     @Override
     public int opeten() {
         this.huidigVakje.verwijderInhoud(this);
-        return getPunten();
+        return this.getPunten();
     }
 
     @Override
@@ -66,4 +55,20 @@ public class Spookje extends Poppetje implements Eetbaar{
         return 200;
     }
 
+    public void setAI(AI ai) {
+        this.ai = ai;
+    }
+
+    public void startAI() {
+        if (this.ai != null) {
+            this.ai.start();
+        }
+    }
+
+    public void stopAI() {
+        if (this.ai != null) {
+            this.ai.stop();
+        }
+    }
 }
+

@@ -1,54 +1,47 @@
+/*
+ * Decompiled with CFR 0_101.
+ */
 package spel;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import spel.Spel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author Jeffrey
- */
-public class GUI extends JPanel {
-
-    public JButton startButton = null;
+public class GUI
+extends JPanel {
+    public JButton startButton = new JButton("Start");
     public JButton resetButton = null;
     public JLabel scoreLabel = null;
 
-    public GUI(Spel spel) {
-        startButton = new JButton("Start");
-        startButton.setFocusable(false);
-        startButton.addActionListener(new ActionListener() {
+    public GUI(final Spel spel) {
+        this.startButton.setFocusable(false);
+        this.startButton.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                startButton.setText(spel.setSpelStatus());
+                GUI.this.startButton.setText(spel.setSpelStatus());
             }
         });
-        this.add(startButton);
-
-        resetButton = new JButton("Reset");
-        resetButton.setFocusable(false);
-        resetButton.addActionListener(new ActionListener() {
+        this.add(this.startButton);
+        this.resetButton = new JButton("Reset");
+        this.resetButton.setFocusable(false);
+        this.resetButton.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 spel.reset();
-                startButton.setText("Start");
+                GUI.this.startButton.setText("Start");
             }
         });
-        this.add(resetButton);
-
-        scoreLabel = new JLabel("Score: 0");
-        
-        this.add(scoreLabel);
-        
+        this.add(this.resetButton);
+        this.scoreLabel = new JLabel("Score: 0");
+        this.add(this.scoreLabel);
         this.setFocusable(false);
     }
+
 }
+

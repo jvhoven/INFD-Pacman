@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Decompiled with CFR 0_101.
  */
 package spel.levelelementen;
 
@@ -10,47 +8,42 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.Inhoud;
+import spel.interfaces.SpelElement;
+import spel.levelelementen.Positie;
+import spel.levelelementen.Vakje;
 import spel.spelelementen.Poppetje;
 
-/**
- *
- * @author Hans
- */
-public class LeegVakje extends Vakje {
-
-    ArrayList<Inhoud> elementen;
+public class LeegVakje
+extends Vakje {
+    ArrayList<SpelElement> spelElementen;
 
     public LeegVakje(Positie positie) {
         this.positie = positie;
-        this.elementen = new ArrayList();
-        this.buurVakjes = new HashMap<>();
+        this.spelElementen = new ArrayList();
+        this.buurVakjes = new HashMap();
     }
 
-    public void verwijderInhoud(Inhoud inhoud) {
-        if (this.elementen.contains(inhoud)) {
-            this.elementen.remove(inhoud);
+    public void verwijderInhoud(SpelElement spelElement) {
+        if (this.spelElementen.contains(spelElement)) {
+            this.spelElementen.remove(spelElement);
         }
     }
 
-    public void toevoegenInhoud(Inhoud inhoud) {
-        if (!this.elementen.contains(inhoud)) {
-            this.elementen.add(inhoud);
-
-            if (inhoud instanceof Poppetje) {
-                Poppetje poppetje = (Poppetje) inhoud;
+    public void toevoegenSpelElement(SpelElement spelElement) {
+        if (!this.spelElementen.contains(spelElement)) {
+            this.spelElementen.add(spelElement);
+            if (spelElement instanceof Poppetje) {
+                Poppetje poppetje = (Poppetje)spelElement;
                 poppetje.setHuidigVakje(this);
             }
         }
     }
 
-    public ArrayList<Eetbaar> getEetbareInhoud() {
-        ArrayList<Eetbaar> eetbareElementen = new ArrayList<>();
-
-        for (Inhoud e : elementen) {
-            if (e instanceof Eetbaar) {
-                eetbareElementen.add((Eetbaar) e);
-            }
+    public ArrayList<Eetbaar> getEetbareSpelElementen() {
+        ArrayList<Eetbaar> eetbareElementen = new ArrayList<Eetbaar>();
+        for (SpelElement e : this.spelElementen) {
+            if (!(e instanceof Eetbaar)) continue;
+            eetbareElementen.add((Eetbaar)e);
         }
         return eetbareElementen;
     }
@@ -58,18 +51,14 @@ public class LeegVakje extends Vakje {
     @Override
     public void teken(Graphics2D g) {
         g.setColor(Color.white);
-
-        int startPositieX = positie.x * SIZE - SIZE + 1;
-        int startPositieY = positie.y * SIZE - SIZE + 1;
-
-        g.fillRect(startPositieX, startPositieY, SIZE - 2, SIZE - 2);
-
+        int startPositieX = this.positie.x * 43 - 43 + 1;
+        int startPositieY = this.positie.y * 43 - 43 + 1;
+        g.fillRect(startPositieX, startPositieY, 41, 41);
         g.setColor(Color.black);
-        g.drawString(positie.y + ", " + positie.x, startPositieX + 10, startPositieY + 10);
-
-        for (Inhoud p : this.elementen) {
+        g.drawString("" + this.positie.y + ", " + this.positie.x, startPositieX + 10, startPositieY + 10);
+        for (SpelElement p : this.spelElementen) {
             p.teken(g);
         }
     }
-
 }
+

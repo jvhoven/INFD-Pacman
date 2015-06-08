@@ -1,23 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Decompiled with CFR 0_101.
  */
 package spel.spelelementen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.Inhoud;
+import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Vakje;
+import spel.levelelementen.Positie;
 
-/**
- *
- * @author Jeffrey
- */
-public class Bolletje implements Eetbaar, Inhoud {
-
+public class Bolletje
+implements Eetbaar,
+SpelElement {
     LeegVakje huidigVakje;
 
     public Bolletje(LeegVakje startVakje) {
@@ -26,22 +21,18 @@ public class Bolletje implements Eetbaar, Inhoud {
 
     @Override
     public void teken(Graphics2D g) {
-        if (huidigVakje != null) {
-               
-            System.out.println("X: " + huidigVakje.positie.x + " Y: " + huidigVakje.positie.y);
-            
-            int x = huidigVakje.positie.x * Vakje.SIZE;
-            int y = huidigVakje.positie.y * Vakje.SIZE;
-
+        if (this.huidigVakje != null) {
+            int x = this.huidigVakje.positie.x * 43 - 43 + 14;
+            int y = this.huidigVakje.positie.y * 43 - 43 + 14;
             g.setColor(new Color(101, 109, 120));
-            g.fillOval(x, y, 20, 20);
+            g.fillOval(x, y, 14, 14);
         }
     }
 
     @Override
     public int opeten() {
         this.huidigVakje.verwijderInhoud(this);
-        return getPunten();
+        return this.getPunten();
     }
 
     @Override
@@ -49,3 +40,4 @@ public class Bolletje implements Eetbaar, Inhoud {
         return 10;
     }
 }
+

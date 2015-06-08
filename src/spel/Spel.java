@@ -1,64 +1,53 @@
+/*
+ * Decompiled with CFR 0_101.
+ */
 package spel;
 
-
-import spel.enums.SpelStatus;
-import java.awt.BorderLayout;
+import java.awt.Component;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import spel.GUI;
+import spel.Speelveld;
+import spel.enums.SpelStatus;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Jeffrey
- */
-public class Spel extends JFrame {
-    
+public class Spel
+extends JFrame {
     private final int BREEDTE = 661;
     private final int HOOGTE = 719;
-    
     Speelveld speelveld = null;
     GUI gui = null;
-    
+
     public Spel() {
         super("INF-D Pacman Groep B6");
-        
-        setSize(BREEDTE, HOOGTE);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        initialiseer();
+        this.setSize(661, 719);
+        this.setDefaultCloseOperation(3);
+        this.setLocationRelativeTo(null);
+        this.initialiseer();
     }
 
     private void initialiseer() {
-        
-        gui = new GUI(this);        
-        add(gui, BorderLayout.NORTH);
-        
-        speelveld = new Speelveld(this);
-        add(speelveld, BorderLayout.CENTER);        
-        
-        setVisible(true);
+        this.gui = new GUI(this);
+        this.add((Component)this.gui, "North");
+        this.speelveld = new Speelveld(this);
+        this.add((Component)this.speelveld, "Center");
+        this.setVisible(true);
     }
-    
-    public String setSpelStatus(){
-        if(speelveld.getSpelStatus() == SpelStatus.GESTART){
-            speelveld.pauzeer();
+
+    public String setSpelStatus() {
+        if (this.speelveld.getSpelStatus() == SpelStatus.GESTART) {
+            this.speelveld.pauzeer();
             return "Hervat";
-        } else {
-            speelveld.start();
-            return "Pauzeer";
         }
-    }    
-    
-    public void reset(){
-        speelveld.reset();        
+        this.speelveld.start();
+        return "Pauzeer";
     }
-    
-    public void showScore(int huidigeScore){
+
+    public void reset() {
+        this.speelveld.reset();
+    }
+
+    public void showScore(int huidigeScore) {
         this.gui.scoreLabel.setText("Score: " + Integer.toString(huidigeScore));
     }
 }
+
