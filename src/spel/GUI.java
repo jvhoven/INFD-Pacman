@@ -1,18 +1,13 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import spel.Spel;
 
-public class GUI
-extends JPanel {
+public class GUI extends JPanel {
+    
     public JButton startButton = new JButton("Start");
     public JButton resetButton = null;
     public JLabel scoreLabel = null;

@@ -1,17 +1,12 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel.levelelementen;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import spel.enums.Richting;
-import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Positie;
 
 public abstract class Vakje {
+    
     public static final int SIZE = 43;
     public Positie positie;
     public HashMap<Richting, Vakje> buurVakjes;
@@ -21,8 +16,8 @@ public abstract class Vakje {
     }
 
     public ArrayList<LeegVakje> getLegeBuurVakjes() {
-        ArrayList<Vakje> vakjes = new ArrayList<Vakje>(this.buurVakjes.values());
-        ArrayList<LeegVakje> legeVakjes = new ArrayList<LeegVakje>();
+        ArrayList<Vakje> vakjes = new ArrayList<>(this.buurVakjes.values());
+        ArrayList<LeegVakje> legeVakjes = new ArrayList<>();
         for (Vakje vakje : vakjes) {
             if (!(vakje instanceof LeegVakje)) continue;
             legeVakjes.add((LeegVakje)vakje);

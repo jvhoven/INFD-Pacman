@@ -1,17 +1,12 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel.spelelementen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import javax.swing.Timer;
 import spel.Speelveld;
@@ -19,15 +14,10 @@ import spel.enums.Afbeelding;
 import spel.enums.Richting;
 import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Positie;
 import spel.levelelementen.Vakje;
-import spel.spelelementen.Bolletje;
-import spel.spelelementen.Poppetje;
-import spel.spelelementen.Spookje;
 
-public class Pacman
-extends Poppetje
-implements KeyListener {
+public class Pacman extends Poppetje implements KeyListener {
+    
     private boolean arrowKeyPressed = false;
     private BufferedImage pacmanPlaatje = null;
     private Richting richting;
@@ -80,11 +70,14 @@ implements KeyListener {
     private BufferedImage setOrientatie() {
         int width = this.pacmanPlaatje.getWidth() / 2;
         int height = this.pacmanPlaatje.getHeight() / 2;
+        
         BufferedImage pacmanOrientatie = new BufferedImage(width, height, 2);
         Graphics2D bg = pacmanOrientatie.createGraphics();
+        
         bg.rotate(this.richting.getGraden(), width / 2, height / 2);
         bg.drawImage(this.pacmanPlaatje, 0, 0, width, height, null);
         bg.dispose();
+        
         return pacmanOrientatie;
     }
 
@@ -110,8 +103,14 @@ implements KeyListener {
                 this.verwijderLeven();
                 continue;
             }
-            if (!(e instanceof Bolletje)) continue;
+             
             punten = e.opeten();
+            
+            // Als we een superbolletje opeten
+            if(e instanceof Superbolletje) {
+                immuunTimer.start();
+                isImmuun = true;
+            }
             this.speelveld.addPunten(punten);
         }
     }

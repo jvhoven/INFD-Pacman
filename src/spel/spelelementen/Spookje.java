@@ -1,25 +1,15 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel.spelelementen;
 
-import AIs.AI;
+import spel.AIs.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import spel.Speelveld;
 import spel.enums.Afbeelding;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.SpelElement;
-import spel.levelelementen.LeegVakje;
-import spel.levelelementen.Positie;
-import spel.spelelementen.Poppetje;
 
-public class Spookje
-extends Poppetje
-implements Eetbaar {
+public class Spookje extends Poppetje implements Eetbaar {
+    
     private BufferedImage spookPlaatje = null;
     private AI ai = null;
 
@@ -37,8 +27,6 @@ implements Eetbaar {
                 g.setColor(Color.blue);
                 g.fillOval(x, y, 33, 33);
             } else {
-                int width = this.spookPlaatje.getWidth();
-                int height = this.spookPlaatje.getHeight();
                 g.drawImage(this.spookPlaatje, x, y, 43, 43, null);
             }
         }

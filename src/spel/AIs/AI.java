@@ -1,7 +1,4 @@
-/*
- * Decompiled with CFR 0_101.
- */
-package AIs;
+package spel.AIs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +7,7 @@ import spel.levelelementen.LeegVakje;
 import spel.spelelementen.Spookje;
 
 public abstract class AI {
+    
     private Timer timer = null;
     protected Spookje spookje = null;
     protected LeegVakje volgendVakje = null;

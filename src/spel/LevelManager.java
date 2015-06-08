@@ -1,17 +1,12 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel;
 
 import java.util.ArrayList;
-import spel.interfaces.SpelElement;
+import spel.enums.VakjeType;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Muur;
 import spel.levelelementen.Positie;
 import spel.levelelementen.Vakje;
-import spel.spelelementen.Bolletje;
-import spel.spelelementen.Pacman;
-import spel.spelelementen.Spookje;
+import spel.spelelementen.*;;
 
 public class LevelManager {
     private final int LEVEL_SIZE = 15;
@@ -22,12 +17,12 @@ public class LevelManager {
         int spookjesIndex = spookjes.size();
         for (int i = 0; i < 15; ++i) {
             for (int j = 0; j < 15; ++j) {
-                if (levelInfo[j][i] == 2) {
+                if (levelInfo[j][i] == VakjeType.SPOOKJE) {
                     if (!(level[j][i] instanceof LeegVakje)) continue;
                     pacman.beweegNaar((LeegVakje)level[i][j]);
                     continue;
                 }
-                if (levelInfo[j][i] != 3 || !(level[j][i] instanceof LeegVakje)) continue;
+                if (levelInfo[j][i] != VakjeType.SPOOKJE || !(level[j][i] instanceof LeegVakje)) continue;
                 spookjes.get(spookjesIndex - 1).beweegNaar((LeegVakje)level[i][j]);
                 --spookjesIndex;
             }
@@ -51,7 +46,24 @@ public class LevelManager {
         int[][] levelInfo = null;
         if (this.huidigLevelNummer == 1) {
             int[][] tempLevelInfo;
-            levelInfo = tempLevelInfo = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 3, 3, 1}, {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 4, 3, 1}, {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 1, 4, 4, 1}, {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+            
+            levelInfo = tempLevelInfo = new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+                {1, 2, 5, 4, 4, 4, 4, 4, 4, 4, 4, 1, 3, 3, 1}, 
+                {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 4, 3, 1}, 
+                {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 1, 4, 4, 1}, 
+                {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1}, 
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+            };
         } else if (this.huidigLevelNummer == 2 || this.huidigLevelNummer == 3) {
             // empty if block
         }
@@ -66,30 +78,35 @@ public class LevelManager {
                 Positie nieuwePositie = new Positie(x + 1, y + 1);
                 Vakje nieuwVakje = null;
                 switch (levelInfo[y][x]) {
-                    case 0: {
+                    case VakjeType.LEEG_VAKJE: 
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         break;
-                    }
-                    case 1: {
+                    
+                    case VakjeType.MUUR: 
                         nieuwVakje = new Muur(nieuwePositie);
                         break;
-                    }
-                    case 2: {
+                    
+                    case VakjeType.PACMAN: 
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje)nieuwVakje).toevoegenSpelElement(pacman);
                         break;
-                    }
-                    case 3: {
+                    
+                    case VakjeType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje)nieuwVakje).toevoegenSpelElement(new Bolletje((LeegVakje)nieuwVakje));
                         ((LeegVakje)nieuwVakje).toevoegenSpelElement(spookjes.get(spookjesIndex - 1));
                         --spookjesIndex;
                         break;
-                    }
-                    case 4: {
+                    
+                    case VakjeType.BOLLETJE: 
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje)nieuwVakje).toevoegenSpelElement(new Bolletje((LeegVakje)nieuwVakje));
-                    }
+                        break;
+                    
+                    case VakjeType.SUPER_BOLLETJE:
+                        nieuwVakje = new LeegVakje(nieuwePositie);
+                        ((LeegVakje)nieuwVakje).toevoegenSpelElement(new Superbolletje((LeegVakje)nieuwVakje));
+                        break;
                 }
                 level[x][y] = nieuwVakje;
             }

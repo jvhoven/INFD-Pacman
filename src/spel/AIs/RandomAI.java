@@ -1,16 +1,12 @@
-/*
- * Decompiled with CFR 0_101.
- */
-package AIs;
+package spel.AIs;
 
-import AIs.AI;
 import java.util.ArrayList;
 import java.util.Random;
 import spel.levelelementen.LeegVakje;
 import spel.spelelementen.Spookje;
 
-public class RandomAI
-extends AI {
+public class RandomAI extends AI {
+    
     private LeegVakje vorigVakje = null;
 
     public RandomAI(Spookje spookje) {

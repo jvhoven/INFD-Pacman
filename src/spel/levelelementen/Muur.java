@@ -1,16 +1,11 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel.levelelementen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashMap;
-import spel.levelelementen.Positie;
-import spel.levelelementen.Vakje;
 
-public class Muur
-extends Vakje {
+public class Muur extends Vakje {
+    
     public Muur(Positie positie) {
         this.positie = positie;
         this.buurVakjes = new HashMap();

@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel.levelelementen;
 
 import java.awt.Color;
@@ -9,12 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import spel.interfaces.Eetbaar;
 import spel.interfaces.SpelElement;
-import spel.levelelementen.Positie;
-import spel.levelelementen.Vakje;
 import spel.spelelementen.Poppetje;
 
-public class LeegVakje
-extends Vakje {
+public class LeegVakje extends Vakje {
+    
     ArrayList<SpelElement> spelElementen;
 
     public LeegVakje(Positie positie) {

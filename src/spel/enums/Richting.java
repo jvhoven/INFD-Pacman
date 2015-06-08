@@ -1,9 +1,7 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel.enums;
 
 public enum Richting {
+    
     NEUTRAAL(0),
     LINKS(180),
     RECHTS(360),

@@ -6,12 +6,12 @@ import spel.interfaces.Eetbaar;
 import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
 
-public class Bolletje implements Eetbaar, SpelElement {
+public class Superbolletje implements Eetbaar, SpelElement {
     
     LeegVakje huidigVakje;
 
-    public Bolletje(LeegVakje startVakje) {
-        this.huidigVakje = startVakje;
+    public Superbolletje(LeegVakje startVakje) {
+         this.huidigVakje = startVakje;
     }
 
     @Override
@@ -19,7 +19,7 @@ public class Bolletje implements Eetbaar, SpelElement {
         if (this.huidigVakje != null) {
             int x = this.huidigVakje.positie.x * 43 - 43 + 14;
             int y = this.huidigVakje.positie.y * 43 - 43 + 14;
-            g.setColor(new Color(101, 109, 120));
+            g.setColor(new Color(0, 255, 0));
             g.fillOval(x, y, 14, 14);
         }
     }
@@ -34,5 +34,5 @@ public class Bolletje implements Eetbaar, SpelElement {
     public int getPunten() {
         return 10;
     }
+    
 }
-
