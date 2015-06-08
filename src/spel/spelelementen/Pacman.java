@@ -54,15 +54,15 @@ public class Pacman extends Poppetje implements KeyListener {
 
         if (huidigVakje != null) {
                         
-            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE + 10);
-            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE - 12);
+            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE);
+            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE);
             if (pacmanPlaatje == null) {
                 g.setColor(Color.yellow);
                 g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
             } else {
 
                 BufferedImage afbeelding = setOrientatie();
-                g.drawImage(afbeelding, x + (Vakje.SIZE / 2), y + (Vakje.SIZE / 2), Vakje.SIZE - 10, Vakje.SIZE - 10, null);
+                g.drawImage(afbeelding, x, y, Vakje.SIZE, Vakje.SIZE, null);
             }
         }
     }

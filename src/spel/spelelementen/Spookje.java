@@ -50,8 +50,8 @@ public class Spookje extends Poppetje implements Eetbaar{
     public void teken(Graphics2D g) {
 
         if (huidigVakje != null) {
-            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE + 10);
-            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE - 12);
+            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE);
+            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE);
             if (spookPlaatje == null) {
                 g.setColor(Color.blue);
                 g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
@@ -60,7 +60,7 @@ public class Spookje extends Poppetje implements Eetbaar{
                 int width = spookPlaatje.getWidth();
                 int height = spookPlaatje.getHeight();
                 
-                g.drawImage(spookPlaatje, x + (Vakje.SIZE / 2), y + (Vakje.SIZE / 2), Vakje.SIZE - 10, Vakje.SIZE - 10, null);
+                g.drawImage(spookPlaatje, x, y, Vakje.SIZE, Vakje.SIZE, null);
             }
         }
     }

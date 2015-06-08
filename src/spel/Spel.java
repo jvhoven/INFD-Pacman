@@ -17,8 +17,8 @@ import javax.swing.JFrame;
  */
 public class Spel extends JFrame {
     
-    private final int BREEDTE = 516;
-    private final int HOOGTE = 574;
+    private final int BREEDTE = 661;
+    private final int HOOGTE = 719;
     
     Speelveld speelveld = null;
     GUI gui = null;
