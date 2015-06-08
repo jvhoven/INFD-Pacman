@@ -7,13 +7,13 @@ package spel.levelelementen;
 
 import java.awt.Graphics2D;
 import java.util.HashMap;
-import spel.Richting;
+import spel.enums.Richting;
 
 /**
  *
  * @author Hans
  */
-public abstract class Vakje {
+public abstract class Vakje{
 
     public static final int SIZE = 43;
 

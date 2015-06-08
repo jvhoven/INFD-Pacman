@@ -8,14 +8,8 @@ package spel.spelelementen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import spel.Speelveld;
+import spel.enums.Afbeelding;
 import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
@@ -32,18 +26,14 @@ public class Spookje extends Poppetje implements Eetbaar{
         this.speelveld = speelveld;
         setHuidigVakje(startVakje);
 
-        try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            URI uriPath = classLoader.getResource("images/spook.png").toURI();
-            if (uriPath != null) {
-                File file = new File(uriPath);
-                spookPlaatje = ImageIO.read(file);
-            }
-        } catch (IOException e) {
-            System.err.print(e);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Spookje.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Afbeelding afbeelding = Afbeelding.SPOOK_BLAUW;
+        spookPlaatje = afbeelding.getAfbeelding();
+    }
+    
+    public Spookje(Speelveld speelveld, LeegVakje startVakje, Afbeelding afbeelding) {
+        this.speelveld = speelveld;
+        setHuidigVakje(startVakje);
+        spookPlaatje = afbeelding.getAfbeelding();
     }
 
     @Override

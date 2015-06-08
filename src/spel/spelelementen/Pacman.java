@@ -5,16 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import spel.Richting;
+import spel.enums.Richting;
 import spel.Speelveld;
+import spel.enums.Afbeelding;
 import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
@@ -33,20 +27,9 @@ public class Pacman extends Poppetje implements KeyListener {
         this.speelveld = speelveld;
         this.huidigVakje = startVakje;
         this.richting = Richting.NEUTRAAL;
-
-        try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            URI uriPath = classLoader.getResource("images/pacman.png").toURI();
-            if (uriPath != null) {
-                File file = new File(uriPath);
-                pacmanPlaatje = ImageIO.read(file);
-
-            }
-        } catch (IOException e) {
-            System.err.print(e);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        Afbeelding afbeelding = Afbeelding.PACMAN;
+        pacmanPlaatje = afbeelding.getAfbeelding();
     }
 
     @Override

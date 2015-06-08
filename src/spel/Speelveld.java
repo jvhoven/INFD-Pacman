@@ -7,7 +7,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import javax.swing.JPanel;
+import spel.enums.Afbeelding;
 import spel.levelelementen.*;
 import spel.spelelementen.*;
 
@@ -22,7 +26,11 @@ public class Speelveld extends JPanel {
     private Vakje[][] level = null;
     private Pacman pacman = null;
     private int huidigeScore = 0;
-
+    
+    
+    // Meerdere afbeeldingen voor spookjes
+    Queue<Afbeelding> spookjes = new LinkedList<>(Arrays.asList(Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE));
+    
     public Speelveld(Spel spel) {
         super();
 
@@ -54,9 +62,9 @@ public class Speelveld extends JPanel {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
             { 1, 2, 3, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
             { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
             { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1 },
             { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
             { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
             { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -94,7 +102,7 @@ public class Speelveld extends JPanel {
                     case VakjeType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
-                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Spookje(this, (LeegVakje) nieuwVakje));
+                        ((LeegVakje) nieuwVakje).toevoegenInhoud(new Spookje(this, (LeegVakje) nieuwVakje, spookjes.poll()));
                         break;
                     case VakjeType.BOLLETJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
