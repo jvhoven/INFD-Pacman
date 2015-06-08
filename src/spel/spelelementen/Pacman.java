@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spel.spelelementen;
 
 import java.awt.Color;
@@ -21,7 +16,6 @@ import javax.imageio.ImageIO;
 import spel.Richting;
 import spel.Speelveld;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.Inhoud;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
 
@@ -59,15 +53,16 @@ public class Pacman extends Poppetje implements KeyListener {
     public void teken(Graphics2D g) {
 
         if (huidigVakje != null) {
-            int x = huidigVakje.positie.x * Vakje.SIZE - Vakje.SIZE + 5;
-            int y = huidigVakje.positie.y * Vakje.SIZE - Vakje.SIZE + 5;
+                        
+            int x = huidigVakje.positie.x * Vakje.SIZE - (Vakje.SIZE + 10);
+            int y = huidigVakje.positie.y * Vakje.SIZE - (Vakje.SIZE - 12);
             if (pacmanPlaatje == null) {
                 g.setColor(Color.yellow);
                 g.fillOval(x, y, Vakje.SIZE - 10, Vakje.SIZE - 10);
             } else {
 
                 BufferedImage afbeelding = setOrientatie();
-                g.drawImage(afbeelding, x + (pacmanPlaatje.getWidth() / 4) - 5, y + (pacmanPlaatje.getHeight() / 4), null);
+                g.drawImage(afbeelding, x + (Vakje.SIZE / 2), y + (Vakje.SIZE / 2), Vakje.SIZE - 10, Vakje.SIZE - 10, null);
             }
         }
     }

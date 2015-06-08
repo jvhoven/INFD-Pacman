@@ -15,7 +15,7 @@ import spel.Richting;
  */
 public abstract class Vakje {
 
-    public static final int SIZE = 100;
+    public static final int SIZE = 43;
 
     public Positie positie;
     public HashMap<Richting, Vakje> buurVakjes;
@@ -33,11 +33,11 @@ public abstract class Vakje {
             this.buurVakjes.put(Richting.OMHOOG, level[this.positie.x - 1][this.positie.y - 2]);
         }
 
-        if (this.positie.x < 5) {
+        if (this.positie.x < 15) {
             this.buurVakjes.put(Richting.RECHTS, level[this.positie.x][this.positie.y - 1]);
         }
 
-        if (this.positie.y < 5) {
+        if (this.positie.y < 15) {
             this.buurVakjes.put(Richting.OMLAAG, level[this.positie.x - 1][this.positie.y]);
         }
 

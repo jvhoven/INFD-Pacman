@@ -1,7 +1,7 @@
 package spel;
 
 import spel.enums.SpelStatus;
-import spel.enums.ElementType;
+import spel.enums.VakjeType;
 import spel.spelelementen.Bolletje;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,8 +36,6 @@ public class Speelveld extends JPanel {
     }
 
     private void initialiseer() {
-        int breedte = 5;
-        int hoogte = 5;        
 
         int[][] levelInfo = getLevelInfo();
 
@@ -53,56 +51,66 @@ public class Speelveld extends JPanel {
 
     public int[][] getLevelInfo() {
         int[][] levelInfo = {
-            {1, 1, 1, 2, 1},
-            {4, 3, 4, 4, 1},
-            {4, 1, 3, 1, 1},
-            {4, 3, 4, 3, 1},
-            {1, 1, 1, 1, 1}
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+            { 1, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         };
 
         return levelInfo;
     }
 
     public void initLevel(int[][] levelInfo) {
-        level = new Vakje[5][5];
+        level = new Vakje[15][15];
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                Positie nieuwePositie = new Positie(i + 1, j + 1);
+        for (int x = 0; x < 15; x++) {
+            for (int y = 0; y < 15; y++) {
+                Positie nieuwePositie = new Positie(x + 1, y + 1);
                 Vakje nieuwVakje = null;
 
-                switch (levelInfo[i][j]) {
-                    case ElementType.LEEG_VAKJE:
+                switch (levelInfo[y][x]) {
+                    case VakjeType.LEEG_VAKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         break;
-                    case ElementType.MUUR:
+                    case VakjeType.MUUR:
                         nieuwVakje = new Muur(nieuwePositie);
                         break;
-                    case ElementType.PACMAN:
+                    case VakjeType.PACMAN:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         this.pacman = new Pacman(this, (LeegVakje) nieuwVakje);
                         ((LeegVakje) nieuwVakje).toevoegenInhoud(pacman);
                         break;
-                    case ElementType.SPOOKJE:
+                    case VakjeType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
                         ((LeegVakje) nieuwVakje).toevoegenInhoud(new Spookje(this, (LeegVakje) nieuwVakje));
                         break;
-                    case ElementType.BOLLETJE:
+                    case VakjeType.BOLLETJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenInhoud(new Bolletje((LeegVakje) nieuwVakje));
                         break;
                 }
 
-                level[i][j] = nieuwVakje;
+                level[x][y] = nieuwVakje;
             }
         }
     }
 
     public void setBuurvakjesLevel() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                level[i][j].setBuurVakjes(level);
+        for (int x = 0; x < 15; x++) {
+            for (int y = 0; y < 15; y++) {
+                level[x][y].setBuurVakjes(level);
             }
         }
     }
@@ -111,9 +119,9 @@ public class Speelveld extends JPanel {
 
         this.setBackground(new Color(224, 224, 224));
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                level[i][j].teken(g);
+        for (int x = 0; x < 15; x++) {
+            for (int y = 0; y < 15; y++) {
+                level[x][y].teken(g);
             }
         }
     }

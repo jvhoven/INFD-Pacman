@@ -27,11 +27,14 @@ public class Bolletje implements Eetbaar, Inhoud {
     @Override
     public void teken(Graphics2D g) {
         if (huidigVakje != null) {
-            int x = huidigVakje.positie.x * Vakje.SIZE - Vakje.SIZE + 5;
-            int y = huidigVakje.positie.y * Vakje.SIZE - Vakje.SIZE + 5;
+               
+            System.out.println("X: " + huidigVakje.positie.x + " Y: " + huidigVakje.positie.y);
+            
+            int x = huidigVakje.positie.x * Vakje.SIZE;
+            int y = huidigVakje.positie.y * Vakje.SIZE;
 
             g.setColor(new Color(101, 109, 120));
-            g.fillOval(x + 35, y + 35, 20, 20);
+            g.fillOval(x, y, 20, 20);
         }
     }
 
