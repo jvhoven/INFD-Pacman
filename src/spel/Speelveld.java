@@ -26,6 +26,7 @@ public class Speelveld extends JPanel {
     private Vakje[][] level = null;
     private Pacman pacman = null;
     private int huidigeScore = 0;
+     
     
     
     // Meerdere afbeeldingen voor spookjes
