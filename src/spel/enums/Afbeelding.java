@@ -10,7 +10,8 @@ public enum Afbeelding {
     SPOOK_BLAUW("spook_een.png"),
     SPOOK_ROZE("spook_drie.png"),
     SPOOK_ROOD("spook_twee.png"),
-    PACMAN("pacman.png");
+    PACMAN("pacman.png"),
+    KERS("kers.png");
     
     private final String afbeelding;
 

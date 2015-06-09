@@ -7,5 +7,6 @@ public class VakjeType {
     public static final int SPOOKJE = 3;
     public static final int BOLLETJE = 4;
     public static final int SUPER_BOLLETJE = 5;
+    public static final int KERS = 6;
 }
 
