@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_101.
- */
 package spel;
 
 import spel.AIs.*;
@@ -18,10 +15,7 @@ import spel.enums.Afbeelding;
 import spel.enums.SpelStatus;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
-import spel.spelelementen.Bolletje;
-import spel.spelelementen.Kers;
-import spel.spelelementen.Pacman;
-import spel.spelelementen.Spookje;
+import spel.spelelementen.*;
 import utilities.RandomNumberGenerator;
 
 public class Speelveld extends JPanel {
@@ -55,7 +49,7 @@ public class Speelveld extends JPanel {
         this.levelManager = new LevelManager();
         this.pacman = new Pacman(this);
         this.spel.showLeven(this.pacman.getLevens());
-        
+
         this.huidigeScore = 0;
         this.spel.showScore(this.huidigeScore);
 
@@ -77,21 +71,28 @@ public class Speelveld extends JPanel {
         this.repaint();
     }
 
+    public void naarVolgendLevel() {
+        this.pauzeer();
+        level = levelManager.getVolgendLevel(pacman, spookjes);
+        this.repaint();
+        this.spel.showLevel(levelManager.getHuidigLevelNummer());
+    }
+
     public void resetPositiePoppetjes() {
-        
+
         int levens = pacman.getLevens();
-        
-        if(levens > 0) {
+
+        if (levens > 0) {
             this.spel.showLeven(levens);
             pacman.reset();
-            for(Spookje spookje : spookjes) {
+            for (Spookje spookje : spookjes) {
                 spookje.reset();
             }
         } else {
             this.spel.showLeven(levens, true);
             pauzeer();
         }
-        
+
     }
 
     public int getTotaalBolletjesInLevel() {
@@ -124,7 +125,7 @@ public class Speelveld extends JPanel {
                 }
             }
         }
-        
+
     }
 
     private void teken(Graphics2D g) {

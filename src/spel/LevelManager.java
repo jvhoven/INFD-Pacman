@@ -1,9 +1,7 @@
 package spel;
 
 import java.util.ArrayList;
-import java.util.Random;
 import spel.enums.VakjeType;
-import spel.interfaces.Eetbaar;
 import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Muur;
@@ -55,8 +53,28 @@ public class LevelManager {
                 {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
             };
-        } else if (this.huidigLevelNummer == 2 || this.huidigLevelNummer == 3) {
-            // empty if block
+        } else if (this.huidigLevelNummer == 2) {
+            int[][] tempLevelInfo;
+
+            levelInfo = tempLevelInfo = new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 3, 3, 1},
+                {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 4, 3, 1},
+                {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 1, 4, 4, 1},
+                {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
+                {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+            };
+        } else if (this.huidigLevelNummer == 3) {
+            
         }
         return levelInfo;
     }
@@ -143,5 +161,9 @@ public class LevelManager {
 
     public int getTotaalAantalBolletjes() {
         return this.totaalAantalBolletjes;
+    }
+    
+    public int getHuidigLevelNummer(){
+        return this.huidigLevelNummer;
     }
 }
