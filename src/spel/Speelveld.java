@@ -63,11 +63,15 @@ public class Speelveld extends JPanel {
 
         Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
         spookje3.setAI(new SmartAI(spookje3));
+        
+        Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
+        spookje4.setAI(new RandomAI(spookje4));
 
         this.spookjes = new ArrayList();
         this.spookjes.add(spookje1);
         this.spookjes.add(spookje2);
         this.spookjes.add(spookje3);
+        this.spookjes.add(spookje4);
 
         this.level = this.levelManager.getLevel(this.pacman, this.spookjes);
         this.repaint();

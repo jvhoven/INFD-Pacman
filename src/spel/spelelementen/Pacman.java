@@ -128,7 +128,8 @@ public class Pacman extends Poppetje implements KeyListener {
         double percentageOpgegetenBolletje = (double) aantalOpgegetenBolletjes / (double) speelveld.getTotaalBolletjesInLevel() * 100;
         if (percentageOpgegetenBolletje > 49 && percentageOpgegetenBolletje < 51) {
             speelveld.spawnKers();
-        } else if (percentageOpgegetenBolletje >= 100) {
+        } else if (percentageOpgegetenBolletje >= 10) {
+            aantalOpgegetenBolletjes = 0;
             speelveld.naarVolgendLevel();
         }
     }

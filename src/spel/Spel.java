@@ -17,6 +17,7 @@ public class Spel extends JFrame {
         this.setSize(661, 719);
         this.setDefaultCloseOperation(3);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         this.initialiseer();
     }
 
