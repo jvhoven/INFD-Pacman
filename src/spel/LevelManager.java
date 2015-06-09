@@ -12,26 +12,14 @@ import spel.spelelementen.*;
 
 public class LevelManager {
 
-    private final int LEVEL_SIZE = 15;
+    public final int LEVEL_SIZE = 15;
     int huidigLevelNummer = 1;
 
-    public Vakje[][] resetPosities(Vakje[][] level, Pacman pacman, ArrayList<Spookje> spookjes) {
-        int[][] levelInfo = this.getLevelInfo();
-        int spookjesIndex = spookjes.size();
-        for (int i = 0; i < 15; ++i) {
-            for (int j = 0; j < 15; ++j) {
-                if (levelInfo[j][i] == VakjeType.PACMAN) {
-                    if (level[j][i] instanceof LeegVakje) {
-                        pacman.beweegNaar((LeegVakje) level[i][j]);
-                    }
-                }
-                if (levelInfo[j][i] == VakjeType.SPOOKJE && level[j][i] instanceof LeegVakje) {
-                    spookjes.get(spookjesIndex - 1).beweegNaar((LeegVakje) level[i][j]);
-                    --spookjesIndex;
-                }
-            }
+    public void resetPosities(Pacman pacman, ArrayList<Spookje> spookjes) {        
+        pacman.reset();
+        for(Spookje spookje : spookjes) {
+            spookje.reset();
         }
-        return null;
     }
 
     public Vakje[][] getVolgendLevel(Pacman pacman, ArrayList<Spookje> spookjes) {
@@ -93,13 +81,17 @@ public class LevelManager {
                     case VakjeType.PACMAN:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(pacman);
+                        pacman.setStartVakje((LeegVakje) nieuwVakje);
                         break;
 
                     case VakjeType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Bolletje((LeegVakje) nieuwVakje));
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(spookjes.get(spookjesIndex - 1));
+                        
+                        spookjes.get(spookjesIndex - 1).setStartVakje((LeegVakje) nieuwVakje);
                         --spookjesIndex;
+                        
                         break;
 
                     case VakjeType.BOLLETJE:

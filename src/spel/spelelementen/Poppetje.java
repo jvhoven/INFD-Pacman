@@ -9,10 +9,15 @@ public abstract class Poppetje implements SpelElement {
     
     protected Speelveld speelveld;
     protected LeegVakje huidigVakje;
+    protected LeegVakje startVakje;
 
     @Override
     public abstract void teken(Graphics2D g);
-
+    
+    public void reset() {
+        beweegNaar(startVakje);
+    }
+    
     public void beweegNaar(LeegVakje vakje) {
         this.huidigVakje.verwijderInhoud(this);
         vakje.toevoegenSpelElement(this);
@@ -21,6 +26,10 @@ public abstract class Poppetje implements SpelElement {
 
     public void setHuidigVakje(LeegVakje vakje) {
         this.huidigVakje = vakje;
+    }
+    
+    public void setStartVakje(LeegVakje vakje) {
+        this.startVakje = vakje;
     }
 
     public LeegVakje getHuidigVakje() {

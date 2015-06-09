@@ -25,6 +25,8 @@ public class Pacman extends Poppetje implements KeyListener {
     private boolean isImmuun = false;
     private Timer immuunTimer = null;
 
+    public Vakje startPositie = null;
+    
     public int getLevens() {
         return this.levens;
     }
@@ -40,7 +42,6 @@ public class Pacman extends Poppetje implements KeyListener {
         this.speelveld = speelveld;
         this.richting = Richting.NEUTRAAL;
         this.levens = 3;
-        this.isImmuun = false;
         this.immuunTimer = new Timer(10000, new ActionListener(){
 
             @Override
@@ -55,8 +56,10 @@ public class Pacman extends Poppetje implements KeyListener {
     @Override
     public void teken(Graphics2D g) {
         if (this.huidigVakje != null) {
+            
             int x = this.huidigVakje.positie.x * 43 - 43;
             int y = this.huidigVakje.positie.y * 43 - 43;
+            
             if (this.pacmanPlaatje == null) {
                 g.setColor(Color.yellow);
                 g.fillOval(x, y, 33, 33);
@@ -89,49 +92,48 @@ public class Pacman extends Poppetje implements KeyListener {
             this.verwerkInhoudHuidigVakje();
         }
     }
-
+    
     public void verwerkInhoudHuidigVakje() {
+        
         ArrayList<Eetbaar> eetbareInhoud = this.huidigVakje.getEetbareSpelElementen();
+        
         for (Eetbaar e : eetbareInhoud) {
             int punten;
             if (e instanceof Spookje) {
                 if (this.isImmuun) {
                     punten = e.opeten();
                     this.speelveld.addPunten(punten);
-                    continue;
+                } else {
+                    this.verwijderLeven();
                 }
-                this.verwijderLeven();
-                continue;
-            }
-             
-            punten = e.opeten();
-            
-            // Als we een superbolletje opeten
-            if(e instanceof Superbolletje) {
+            } else if(e instanceof Superbolletje) {
                 immuunTimer.start();
                 isImmuun = true;
+            } else {
+                punten = e.opeten();
+                this.speelveld.addPunten(punten);
             }
-            this.speelveld.addPunten(punten);
         }
     }
 
     private void setRichting(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case 40: {
+            
+            case KeyEvent.VK_DOWN:
                 this.richting = Richting.OMLAAG;
                 break;
-            }
-            case 38: {
+           
+            case KeyEvent.VK_UP: 
                 this.richting = Richting.OMHOOG;
                 break;
-            }
-            case 37: {
+            
+            case KeyEvent.VK_LEFT: 
                 this.richting = Richting.LINKS;
                 break;
-            }
-            case 39: {
+            
+            case KeyEvent.VK_RIGHT: 
                 this.richting = Richting.RECHTS;
-            }
+                break;
         }
     }
 

@@ -22,6 +22,7 @@ public class GUI extends JPanel {
             }
         });
         this.add(this.startButton);
+        
         this.resetButton = new JButton("Reset");
         this.resetButton.setFocusable(false);
         this.resetButton.addActionListener(new ActionListener(){

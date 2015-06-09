@@ -28,8 +28,8 @@ public class Speelveld extends JPanel {
     private Vakje[][] level = null;
     private Pacman pacman = null;
     private ArrayList<Spookje> spookjes = null;
+    private LevelManager levelManager = null;
     
-    LevelManager levelManager = null;
     Queue<Afbeelding> spookjesAfbeeldingen = new LinkedList<>(
         Arrays.asList(
             new Afbeelding[]{Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE}
@@ -39,8 +39,6 @@ public class Speelveld extends JPanel {
     public Speelveld(Spel spel) {
         this.spel = spel;
         this.spelStatus = SpelStatus.GEPAUZEERD;
-        this.huidigeScore = 0;
-        this.spel.showScore(this.huidigeScore);
         
         this.setPreferredSize(new Dimension(500, 500));
         this.setFocusable(true);
@@ -51,6 +49,9 @@ public class Speelveld extends JPanel {
     private void initialiseer() {
         this.levelManager = new LevelManager();
         this.pacman = new Pacman(this);
+        
+        this.huidigeScore = 0;
+        this.spel.showScore(this.huidigeScore);
         
         Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
         spookje1.setAI(new RandomAI(spookje1));
@@ -71,13 +72,13 @@ public class Speelveld extends JPanel {
     }
 
     public void resetPositiePoppetjes() {
-        this.levelManager.resetPosities(this.level, this.pacman, this.spookjes);
+        this.levelManager.resetPosities(this.pacman, this.spookjes);
     }
 
     private void teken(Graphics2D g) {
         this.setBackground(new Color(224, 224, 224));
-        for (int x = 0; x < 15; ++x) {
-            for (int y = 0; y < 15; ++y) {
+        for (int x = 0; x < levelManager.LEVEL_SIZE; ++x) {
+            for (int y = 0; y < levelManager.LEVEL_SIZE; ++y) {
                 this.level[x][y].teken(g);
             }
         }
