@@ -24,6 +24,7 @@ public class Pacman extends Poppetje implements KeyListener {
     private int levens = 0;
     private boolean isImmuun = false;
     private Timer immuunTimer = null;
+    private int aantalOpgegetenBolletjes = 0;
 
     public Vakje startPositie = null;
 
@@ -118,6 +119,12 @@ public class Pacman extends Poppetje implements KeyListener {
     private void etenEetbaarSpelElement(Eetbaar eetbaarSpelElement) {
         int punten = eetbaarSpelElement.opeten();
         this.speelveld.addPunten(punten);
+        aantalOpgegetenBolletjes++;
+        
+        double percentageOpgegetenBolletje = (double)aantalOpgegetenBolletjes/(double)speelveld.getTotaalBolletjesInLevel()*100;
+        if(percentageOpgegetenBolletje >= 50){
+            speelveld.spawnKers();
+        }
     }
 
     private void setRichting(KeyEvent e) {

@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import spel.interfaces.Eetbaar;
 import spel.interfaces.SpelElement;
+import spel.spelelementen.Bolletje;
+import spel.spelelementen.Pacman;
 import spel.spelelementen.Poppetje;
 
 public class LeegVakje extends Vakje {
-    
+
     ArrayList<SpelElement> spelElementen;
 
     public LeegVakje(Positie positie) {
@@ -28,7 +30,7 @@ public class LeegVakje extends Vakje {
         if (!this.spelElementen.contains(spelElement)) {
             this.spelElementen.add(spelElement);
             if (spelElement instanceof Poppetje) {
-                Poppetje poppetje = (Poppetje)spelElement;
+                Poppetje poppetje = (Poppetje) spelElement;
                 poppetje.setHuidigVakje(this);
             }
         }
@@ -37,10 +39,35 @@ public class LeegVakje extends Vakje {
     public ArrayList<Eetbaar> getEetbareSpelElementen() {
         ArrayList<Eetbaar> eetbareElementen = new ArrayList<Eetbaar>();
         for (SpelElement e : this.spelElementen) {
-            if (!(e instanceof Eetbaar)) continue;
-            eetbareElementen.add((Eetbaar)e);
+            if (!(e instanceof Eetbaar)) {
+                continue;
+            }
+            eetbareElementen.add((Eetbaar) e);
         }
         return eetbareElementen;
+    }
+
+    public Bolletje getBolletje() {
+        ArrayList<Eetbaar> eetbareElementen = getEetbareSpelElementen();
+        for (int i = 0; i < eetbareElementen.size(); i++) {
+            Eetbaar e = eetbareElementen.get(i);
+            if (e instanceof Bolletje) {
+                return (Bolletje)e;                
+            }
+        }
+        return null;
+    }
+    
+    public Pacman getPacman() {
+        for(SpelElement element : this.spelElementen) {
+            if(element instanceof Poppetje) {
+                if((Poppetje) element instanceof Pacman) {
+                    return (Pacman) element;
+                }
+            }
+        }
+        
+        return null;
     }
 
     @Override
@@ -50,10 +77,9 @@ public class LeegVakje extends Vakje {
         int startPositieY = this.positie.y * 43 - 43 + 1;
         g.fillRect(startPositieX, startPositieY, 41, 41);
         g.setColor(Color.black);
-        g.drawString("" + this.positie.y + ", " + this.positie.x, startPositieX + 10, startPositieY + 10);
+     
         for (SpelElement p : this.spelElementen) {
             p.teken(g);
         }
     }
 }
-
