@@ -35,7 +35,7 @@ public class Kers implements Eetbaar, SpelElement {
 
     @Override
     public int opeten() {
-        this.huidigVakje.verwijderInhoud(this);
+        this.huidigVakje.verwijderSpelElement(this);
         return this.getPunten();
     }
 
