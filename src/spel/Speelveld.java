@@ -30,9 +30,9 @@ public class Speelveld extends JPanel {
     private boolean kersSpawned = false;
 
     Queue<Afbeelding> spookjesAfbeeldingen = new LinkedList<>(
-        Arrays.asList(
-            new Afbeelding[]{Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE}
-        )
+            Arrays.asList(
+                    new Afbeelding[]{Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE}
+            )
     );
 
     public Speelveld(Spel spel) {
@@ -52,18 +52,18 @@ public class Speelveld extends JPanel {
 
         this.huidigeScore = 0;
         this.spel.showScore(this.huidigeScore);
-  
+
         this.spel.showLevel(1);
 
         Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
         spookje1.setAI(new RandomAI(spookje1));
 
         Spookje spookje2 = new Spookje(this, Afbeelding.SPOOK_ROOD);
-        spookje2.setAI(new SmartAI(spookje2));
+        spookje2.setAI(new Dijkstra(spookje2, pacman));
 
         Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
-        spookje3.setAI(new SmartAI(spookje3));
-        
+        spookje3.setAI(new Dijkstra(spookje3, pacman));
+
         Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
         spookje4.setAI(new RandomAI(spookje4));
 
