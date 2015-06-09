@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import spel.interfaces.Eetbaar;
 import spel.interfaces.SpelElement;
+import spel.spelelementen.Pacman;
 import spel.spelelementen.Poppetje;
 
 public class LeegVakje extends Vakje {
@@ -42,6 +43,18 @@ public class LeegVakje extends Vakje {
         }
         return eetbareElementen;
     }
+    
+    public Pacman getPacman() {
+        for(SpelElement element : this.spelElementen) {
+            if(element instanceof Poppetje) {
+                if((Poppetje) element instanceof Pacman) {
+                    return (Pacman) element;
+                }
+            }
+        }
+        
+        return null;
+    }
 
     @Override
     public void teken(Graphics2D g) {
@@ -50,7 +63,7 @@ public class LeegVakje extends Vakje {
         int startPositieY = this.positie.y * 43 - 43 + 1;
         g.fillRect(startPositieX, startPositieY, 41, 41);
         g.setColor(Color.black);
-        g.drawString("" + this.positie.y + ", " + this.positie.x, startPositieX + 10, startPositieY + 10);
+     
         for (SpelElement p : this.spelElementen) {
             p.teken(g);
         }

@@ -33,9 +33,7 @@ public class Pacman extends Poppetje implements KeyListener {
 
     public void verwijderLeven() {
         --this.levens;
-        if (this.levens > 0) {
-            this.speelveld.resetPositiePoppetjes();
-        }
+        this.speelveld.resetPositiePoppetjes();
     }
 
     public Pacman(Speelveld speelveld) {
@@ -119,7 +117,11 @@ public class Pacman extends Poppetje implements KeyListener {
         int punten = eetbaarSpelElement.opeten();
         this.speelveld.addPunten(punten);
     }
-
+    
+    public boolean isImmuun() {
+        return isImmuun;
+    }
+    
     private void setRichting(KeyEvent e) {
         switch (e.getKeyCode()) {
 
