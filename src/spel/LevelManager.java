@@ -15,13 +15,6 @@ public class LevelManager {
     public final int LEVEL_SIZE = 15;
     int huidigLevelNummer = 1;
 
-    public void resetPosities(Pacman pacman, ArrayList<Spookje> spookjes) {        
-        pacman.reset();
-        for(Spookje spookje : spookjes) {
-            spookje.reset();
-        }
-    }
-
     public Vakje[][] getVolgendLevel(Pacman pacman, ArrayList<Spookje> spookjes) {
         ++this.huidigLevelNummer;
         return this.getLevel(pacman, spookjes);
@@ -42,7 +35,7 @@ public class LevelManager {
             levelInfo = tempLevelInfo = new int[][]{
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 {1, 2, 5, 4, 4, 4, 4, 4, 4, 4, 4, 1, 3, 3, 1},
-                {1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 4, 3, 1},
+                {1, 6, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 4, 3, 1},
                 {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 1, 4, 4, 1},
                 {1, 4, 1, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1},
                 {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
@@ -63,10 +56,10 @@ public class LevelManager {
     }
 
     public Vakje[][] initLevel(int[][] levelInfo, Pacman pacman, ArrayList<Spookje> spookjes) {
-        Vakje[][] level = new Vakje[15][15];
+        Vakje[][] level = new Vakje[LEVEL_SIZE][LEVEL_SIZE];
         int spookjesIndex = spookjes.size();
-        for (int x = 0; x < 15; ++x) {
-            for (int y = 0; y < 15; ++y) {
+        for (int x = 0; x < LEVEL_SIZE; ++x) {
+            for (int y = 0; y < LEVEL_SIZE; ++y) {
                 Positie nieuwePositie = new Positie(x + 1, y + 1);
                 Vakje nieuwVakje = null;
                 switch (levelInfo[y][x]) {
@@ -103,6 +96,11 @@ public class LevelManager {
                         nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Superbolletje((LeegVakje) nieuwVakje));
                         break;
+                        
+                    case VakjeType.KERS:
+                        nieuwVakje = new LeegVakje(nieuwePositie);
+                        ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Kers((LeegVakje) nieuwVakje));
+                        break;
                 }
                 level[x][y] = nieuwVakje;
             }
@@ -111,8 +109,8 @@ public class LevelManager {
     }
 
     public void setBuurvakjesLevel(Vakje[][] level) {
-        for (int x = 0; x < 15; ++x) {
-            for (int y = 0; y < 15; ++y) {
+        for (int x = 0; x < LEVEL_SIZE; ++x) {
+            for (int y = 0; y < LEVEL_SIZE; ++y) {
                 level[x][y].setBuurVakjes(level);
             }
         }
