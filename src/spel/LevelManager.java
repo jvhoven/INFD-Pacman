@@ -15,13 +15,6 @@ public class LevelManager {
     public final int LEVEL_SIZE = 15;
     int huidigLevelNummer = 1;
 
-    public void resetPosities(Pacman pacman, ArrayList<Spookje> spookjes) {        
-        pacman.reset();
-        for(Spookje spookje : spookjes) {
-            spookje.reset();
-        }
-    }
-
     public Vakje[][] getVolgendLevel(Pacman pacman, ArrayList<Spookje> spookjes) {
         ++this.huidigLevelNummer;
         return this.getLevel(pacman, spookjes);
@@ -86,7 +79,6 @@ public class LevelManager {
 
                     case VakjeType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Bolletje((LeegVakje) nieuwVakje));
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(spookjes.get(spookjesIndex - 1));
                         
                         spookjes.get(spookjesIndex - 1).setStartVakje((LeegVakje) nieuwVakje);

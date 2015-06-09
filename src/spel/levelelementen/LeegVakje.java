@@ -18,7 +18,7 @@ public class LeegVakje extends Vakje {
         this.buurVakjes = new HashMap();
     }
 
-    public void verwijderInhoud(SpelElement spelElement) {
+    public void verwijderSpelElement(SpelElement spelElement) {
         if (this.spelElementen.contains(spelElement)) {
             this.spelElementen.remove(spelElement);
         }

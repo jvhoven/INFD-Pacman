@@ -19,7 +19,7 @@ public abstract class Poppetje implements SpelElement {
     }
     
     public void beweegNaar(LeegVakje vakje) {
-        this.huidigVakje.verwijderInhoud(this);
+        this.huidigVakje.verwijderSpelElement(this);
         vakje.toevoegenSpelElement(this);
         this.speelveld.repaint();
     }

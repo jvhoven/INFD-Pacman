@@ -72,7 +72,10 @@ public class Speelveld extends JPanel {
     }
 
     public void resetPositiePoppetjes() {
-        this.levelManager.resetPosities(this.pacman, this.spookjes);
+        pacman.reset();
+        for(Spookje spookje : spookjes) {
+            spookje.reset();
+        }
     }
 
     private void teken(Graphics2D g) {

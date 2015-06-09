@@ -17,7 +17,7 @@ import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
 
 public class Pacman extends Poppetje implements KeyListener {
-    
+
     private boolean arrowKeyPressed = false;
     private BufferedImage pacmanPlaatje = null;
     private Richting richting;
@@ -26,7 +26,7 @@ public class Pacman extends Poppetje implements KeyListener {
     private Timer immuunTimer = null;
 
     public Vakje startPositie = null;
-    
+
     public int getLevens() {
         return this.levens;
     }
@@ -42,7 +42,7 @@ public class Pacman extends Poppetje implements KeyListener {
         this.speelveld = speelveld;
         this.richting = Richting.NEUTRAAL;
         this.levens = 3;
-        this.immuunTimer = new Timer(10000, new ActionListener(){
+        this.immuunTimer = new Timer(10000, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,10 +56,10 @@ public class Pacman extends Poppetje implements KeyListener {
     @Override
     public void teken(Graphics2D g) {
         if (this.huidigVakje != null) {
-            
+
             int x = this.huidigVakje.positie.x * 43 - 43;
             int y = this.huidigVakje.positie.y * 43 - 43;
-            
+
             if (this.pacmanPlaatje == null) {
                 g.setColor(Color.yellow);
                 g.fillOval(x, y, 33, 33);
@@ -73,65 +73,69 @@ public class Pacman extends Poppetje implements KeyListener {
     private BufferedImage setOrientatie() {
         int width = this.pacmanPlaatje.getWidth() / 2;
         int height = this.pacmanPlaatje.getHeight() / 2;
-        
+
         BufferedImage pacmanOrientatie = new BufferedImage(width, height, 2);
         Graphics2D bg = pacmanOrientatie.createGraphics();
-        
+
         bg.rotate(this.richting.getGraden(), width / 2, height / 2);
         bg.drawImage(this.pacmanPlaatje, 0, 0, width, height, null);
         bg.dispose();
-        
+
         return pacmanOrientatie;
     }
 
     private void probeerTeBewegen(Richting richting) {
         Vakje buurVakje = this.huidigVakje.getBuurVakje(richting);
         if (buurVakje != null && buurVakje instanceof LeegVakje) {
-            LeegVakje target = (LeegVakje)buurVakje;
+            LeegVakje target = (LeegVakje) buurVakje;
             this.beweegNaar(target);
             this.verwerkInhoudHuidigVakje();
         }
     }
-    
+
     public void verwerkInhoudHuidigVakje() {
-        
-        ArrayList<Eetbaar> eetbareInhoud = this.huidigVakje.getEetbareSpelElementen();
-        
-        for (Eetbaar e : eetbareInhoud) {
+
+        ArrayList<Eetbaar> eetbaarSpelElement = this.huidigVakje.getEetbareSpelElementen();
+
+        for (Eetbaar e : eetbaarSpelElement) {
             int punten;
             if (e instanceof Spookje) {
                 if (this.isImmuun) {
-                    punten = e.opeten();
-                    this.speelveld.addPunten(punten);
+                    etenEetbaarSpelElement(e);
                 } else {
                     this.verwijderLeven();
                 }
-            } else if(e instanceof Superbolletje) {
+            } else if (e instanceof Superbolletje) {
+                etenEetbaarSpelElement(e);
                 immuunTimer.start();
                 isImmuun = true;
             } else {
-                punten = e.opeten();
-                this.speelveld.addPunten(punten);
+                etenEetbaarSpelElement(e);
             }
         }
     }
 
+    private void etenEetbaarSpelElement(Eetbaar eetbaarSpelElement) {
+        int punten = eetbaarSpelElement.opeten();
+        this.speelveld.addPunten(punten);
+    }
+
     private void setRichting(KeyEvent e) {
         switch (e.getKeyCode()) {
-            
+
             case KeyEvent.VK_DOWN:
                 this.richting = Richting.OMLAAG;
                 break;
-           
-            case KeyEvent.VK_UP: 
+
+            case KeyEvent.VK_UP:
                 this.richting = Richting.OMHOOG;
                 break;
-            
-            case KeyEvent.VK_LEFT: 
+
+            case KeyEvent.VK_LEFT:
                 this.richting = Richting.LINKS;
                 break;
-            
-            case KeyEvent.VK_RIGHT: 
+
+            case KeyEvent.VK_RIGHT:
                 this.richting = Richting.RECHTS;
                 break;
         }
@@ -156,4 +160,3 @@ public class Pacman extends Poppetje implements KeyListener {
     }
 
 }
-
