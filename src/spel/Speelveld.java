@@ -30,9 +30,9 @@ public class Speelveld extends JPanel {
     private boolean kersSpawned = false;
 
     Queue<Afbeelding> spookjesAfbeeldingen = new LinkedList<>(
-            Arrays.asList(
-                    new Afbeelding[]{Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE}
-            )
+        Arrays.asList(
+            new Afbeelding[]{Afbeelding.SPOOK_BLAUW, Afbeelding.SPOOK_ROOD, Afbeelding.SPOOK_ROZE}
+        )
     );
 
     public Speelveld(Spel spel) {
@@ -52,6 +52,8 @@ public class Speelveld extends JPanel {
 
         this.huidigeScore = 0;
         this.spel.showScore(this.huidigeScore);
+  
+        this.spel.showLevel(1);
 
         Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
         spookje1.setAI(new RandomAI(spookje1));
@@ -72,7 +74,6 @@ public class Speelveld extends JPanel {
     }
 
     public void naarVolgendLevel() {
-        this.pauzeer();
         level = levelManager.getVolgendLevel(pacman, spookjes);
         this.repaint();
         this.spel.showLevel(levelManager.getHuidigLevelNummer());
