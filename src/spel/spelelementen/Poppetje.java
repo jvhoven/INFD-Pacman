@@ -31,6 +31,10 @@ public abstract class Poppetje implements SpelElement {
     public void setStartVakje(LeegVakje vakje) {
         this.startVakje = vakje;
     }
+    
+    public LeegVakje getStartVakje(){
+        return this.startVakje;
+    }
 
     public LeegVakje getHuidigVakje() {
         return this.huidigVakje;

@@ -44,5 +44,17 @@ public class Spel extends JFrame {
     public void showScore(int huidigeScore) {
         this.gui.scoreLabel.setText("Score: " + Integer.toString(huidigeScore));
     }
+    
+    public void showLevel(int level) {
+        this.gui.levelLabel.setText("Level: " + Integer.toString(level));
+    }
+    
+    public void showLeven(int levens, boolean...gameOver) {
+        if(gameOver.length > 0) {
+            this.gui.levensLabel.setText("GAME OVER");
+        } else {
+            this.gui.levensLabel.setText("Levens: " + Integer.toString(levens));
+        }
+    }
 }
 

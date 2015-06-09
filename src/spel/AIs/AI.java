@@ -18,6 +18,7 @@ public abstract class AI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                ((Timer)e.getSource()).setDelay(1000);
                 AI.this.berekenVolgendVakje();
                 if (AI.this.volgendVakje != null) {
                     spookje.beweegNaar(AI.this.volgendVakje);
@@ -32,6 +33,10 @@ public abstract class AI {
 
     public void stop() {
         this.timer.stop();
+    }
+    
+    public void pauzeer() {
+        this.timer.setDelay(3000);
     }
 
     public abstract void berekenVolgendVakje();

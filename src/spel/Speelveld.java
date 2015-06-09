@@ -54,7 +54,8 @@ public class Speelveld extends JPanel {
     private void initialiseer() {
         this.levelManager = new LevelManager();
         this.pacman = new Pacman(this);
-
+        this.spel.showLeven(this.pacman.getLevens());
+        
         this.huidigeScore = 0;
         this.spel.showScore(this.huidigeScore);
 
@@ -123,6 +124,7 @@ public class Speelveld extends JPanel {
                 }
             }
         }
+        
     }
 
     private void teken(Graphics2D g) {
