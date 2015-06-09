@@ -34,7 +34,7 @@ public class Spookje extends Poppetje implements Eetbaar {
 
     @Override
     public int opeten() {
-        this.huidigVakje.verwijderInhoud(this);
+        this.reset();
         return this.getPunten();
     }
 

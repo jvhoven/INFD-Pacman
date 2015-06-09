@@ -79,7 +79,6 @@ public class LevelManager {
 
                     case VakjeType.SPOOKJE:
                         nieuwVakje = new LeegVakje(nieuwePositie);
-                        ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Bolletje((LeegVakje) nieuwVakje));
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(spookjes.get(spookjesIndex - 1));
                         
                         spookjes.get(spookjesIndex - 1).setStartVakje((LeegVakje) nieuwVakje);
