@@ -10,9 +10,18 @@ import spel.spelelementen.Bolletje;
 import spel.spelelementen.Pacman;
 import spel.spelelementen.Poppetje;
 
-public class LeegVakje extends Vakje {
+public class LeegVakje extends Vakje implements Comparable {
 
     ArrayList<SpelElement> spelElementen;
+    private int tempAfstand = 0;
+
+    public void setTempAfstand(int afstand) {
+        this.tempAfstand = afstand;
+    }
+
+    public int getTempAfstand() {
+        return this.tempAfstand;
+    }
 
     public LeegVakje(Positie positie) {
         this.positie = positie;
@@ -52,21 +61,21 @@ public class LeegVakje extends Vakje {
         for (int i = 0; i < eetbareElementen.size(); i++) {
             Eetbaar e = eetbareElementen.get(i);
             if (e instanceof Bolletje) {
-                return (Bolletje)e;                
+                return (Bolletje) e;
             }
         }
         return null;
     }
-    
+
     public Pacman getPacman() {
-        for(SpelElement element : this.spelElementen) {
-            if(element instanceof Poppetje) {
-                if((Poppetje) element instanceof Pacman) {
+        for (SpelElement element : this.spelElementen) {
+            if (element instanceof Poppetje) {
+                if ((Poppetje) element instanceof Pacman) {
                     return (Pacman) element;
                 }
             }
         }
-        
+
         return null;
     }
 
@@ -77,9 +86,27 @@ public class LeegVakje extends Vakje {
         int startPositieY = this.positie.y * 43 - 43 + 1;
         g.fillRect(startPositieX, startPositieY, 41, 41);
         g.setColor(Color.black);
-     
+
+        g.drawString(positie.x + ", " + positie.y, startPositieX + 10, startPositieY + 10);
+
         for (SpelElement p : this.spelElementen) {
             p.teken(g);
         }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof LeegVakje) {
+            LeegVakje leegVakje = (LeegVakje) o;
+            if (this.tempAfstand < leegVakje.getTempAfstand()) {
+                return 0;
+            }
+        }
+
+        return 1;
+    }
+
+    public String toString() {
+        return "(" + this.positie.x + " " + this.positie.y + ")";
     }
 }

@@ -56,13 +56,13 @@ public class Speelveld extends JPanel {
         this.spel.showLevel(1);
 
         Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
-        spookje1.setAI(new RandomAI(spookje1));
+        spookje1.setAI(new Dijkstra(spookje1, pacman));
 
         Spookje spookje2 = new Spookje(this, Afbeelding.SPOOK_ROOD);
         spookje2.setAI(new Dijkstra(spookje2, pacman));
 
         Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
-        spookje3.setAI(new Dijkstra(spookje3, pacman));
+        spookje3.setAI(new RandomAI(spookje3));
 
         Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
         spookje4.setAI(new RandomAI(spookje4));

@@ -33,7 +33,7 @@ public class LevelManager {
 
     public int[][] getLevelInfo() {
         int[][] levelInfo = null;
-        if (this.huidigLevelNummer == 1) {
+        if (this.huidigLevelNummer == 2) {
 
             levelInfo = new int[][]{
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -52,7 +52,7 @@ public class LevelManager {
                 {1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
             };
-        } else if (this.huidigLevelNummer == 2) {
+        } else if (this.huidigLevelNummer == 1) {
 
             levelInfo = new int[][]{
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
