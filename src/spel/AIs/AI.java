@@ -36,7 +36,7 @@ public abstract class AI {
     }
     
     public void pauzeer() {
-        this.timer.setDelay(3000);
+        this.timer.setDelay(5000);
     }
 
     public abstract void berekenVolgendVakje();

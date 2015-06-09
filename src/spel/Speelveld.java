@@ -59,7 +59,7 @@ public class Speelveld extends JPanel {
         spookje1.setAI(new Dijkstra(spookje1, pacman));
 
         Spookje spookje2 = new Spookje(this, Afbeelding.SPOOK_ROOD);
-        spookje2.setAI(new Dijkstra(spookje2, pacman));
+        spookje2.setAI(new AStar(spookje2, pacman));
 
         Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
         spookje3.setAI(new RandomAI(spookje3));
