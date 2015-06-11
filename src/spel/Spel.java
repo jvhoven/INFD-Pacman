@@ -50,7 +50,7 @@ public class Spel extends JFrame {
         this.gui.levelLabel.setText("Level: " + Integer.toString(level));
     }
     
-    public void showLeven(int levens, boolean...gameOver) {
+    public void showLevens(int levens, boolean...gameOver) {
         if(gameOver.length > 0) {
             this.gui.levensLabel.setText("GAME OVER");
         } else {

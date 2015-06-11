@@ -1,6 +1,7 @@
 package spel.levelelementen;
 
 public class Positie {
+
     public int x;
     public int y;
 
@@ -8,9 +9,4 @@ public class Positie {
         this.x = x;
         this.y = y;
     }
-
-    public boolean equals(Positie p) {
-        return this.x == p.x && this.y == p.y;
-    }
 }
-

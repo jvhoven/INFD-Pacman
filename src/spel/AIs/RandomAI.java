@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import spel.levelelementen.LeegVakje;
 import spel.spelelementen.Spookje;
+import utilities.RandomNumberGenerator;
 
 public class RandomAI extends AI {
-    
+
     private LeegVakje vorigVakje = null;
 
     public RandomAI(Spookje spookje) {
@@ -19,13 +20,7 @@ public class RandomAI extends AI {
         if (this.vorigVakje != null) {
             legeBuurVakjes.remove(this.vorigVakje);
         }
-        this.volgendVakje = legeBuurVakjes.get(this.getRandomValue(legeBuurVakjes.size()));
+        this.volgendVakje = legeBuurVakjes.get(RandomNumberGenerator.getRandomInt(legeBuurVakjes.size()));
         this.vorigVakje = this.spookje.getHuidigVakje();
     }
-
-    private int getRandomValue(int maxValue) {
-        Random random = new Random();
-        return random.nextInt(maxValue);
-    }
 }
-

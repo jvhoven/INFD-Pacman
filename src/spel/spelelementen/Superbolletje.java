@@ -3,15 +3,12 @@ package spel.spelelementen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
 
-public class Superbolletje implements Eetbaar, SpelElement {
-    
-    LeegVakje huidigVakje;
+public class Superbolletje extends SpelElement implements Eetbaar {
 
     public Superbolletje(LeegVakje startVakje) {
-         this.huidigVakje = startVakje;
+        this.huidigVakje = startVakje;
     }
 
     @Override
@@ -34,5 +31,5 @@ public class Superbolletje implements Eetbaar, SpelElement {
     public int getPunten() {
         return 10;
     }
-    
+
 }

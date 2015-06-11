@@ -2,7 +2,7 @@ package spel;
 
 import java.util.ArrayList;
 import spel.enums.VakjeType;
-import spel.interfaces.SpelElement;
+import spel.spelelementen.SpelElement;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Muur;
 import spel.levelelementen.Positie;
@@ -10,13 +10,12 @@ import spel.levelelementen.Vakje;
 import spel.spelelementen.*;
 import utilities.RandomNumberGenerator;
 
-;
-
 public class LevelManager {
 
     public final int LEVEL_SIZE = 15;
     private int huidigLevelNummer = 1;
     private int totaalAantalBolletjes = 0;
+    private boolean kersSpawned = false;
 
     public Vakje[][] getVolgendLevel(Pacman pacman, ArrayList<Spookje> spookjes) {
         ++this.huidigLevelNummer;
@@ -100,40 +99,34 @@ public class LevelManager {
         for (int x = 0; x < LEVEL_SIZE; ++x) {
             for (int y = 0; y < LEVEL_SIZE; ++y) {
                 Positie nieuwePositie = new Positie(x + 1, y + 1);
-                Vakje nieuwVakje = null;
+                Vakje nieuwVakje = new LeegVakje(nieuwePositie);;
                 switch (levelInfo[y][x]) {
                     case VakjeType.LEEG_VAKJE:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
                         break;
-
                     case VakjeType.MUUR:
                         nieuwVakje = new Muur(nieuwePositie);
                         break;
-
-                    case VakjeType.PACMAN:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
+                    case VakjeType.PACMAN:                        
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(pacman);
                         pacman.setStartVakje((LeegVakje) nieuwVakje);
                         break;
-
                     case VakjeType.SPOOKJE:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(spookjes.get(spookjesIndex - 1));
-
                         spookjes.get(spookjesIndex - 1).setStartVakje((LeegVakje) nieuwVakje);
                         --spookjesIndex;
-
                         break;
-
                     case VakjeType.BOLLETJE:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Bolletje((LeegVakje) nieuwVakje));
                         this.totaalAantalBolletjes++;
                         break;
 
                     case VakjeType.KERS:
-                        nieuwVakje = new LeegVakje(nieuwePositie);
                         ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Kers((LeegVakje) nieuwVakje));
+                        break;
+                        
+                    case VakjeType.SUPER_BOLLETJE:
+                        ((LeegVakje) nieuwVakje).toevoegenSpelElement(new Superbolletje((LeegVakje) nieuwVakje));
+                        this.totaalAantalBolletjes++;
                         break;
                 }
                 level[x][y] = nieuwVakje;
@@ -142,7 +135,7 @@ public class LevelManager {
         return level;
     }
 
-    public void setBuurvakjesLevel(Vakje[][] level) {
+    private void setBuurvakjesLevel(Vakje[][] level) {
         for (int x = 0; x < LEVEL_SIZE; ++x) {
             for (int y = 0; y < LEVEL_SIZE; ++y) {
                 level[x][y].setBuurVakjes(level);
@@ -176,8 +169,16 @@ public class LevelManager {
     public int getTotaalAantalBolletjes() {
         return this.totaalAantalBolletjes;
     }
-    
-    public int getHuidigLevelNummer(){
+
+    public int getHuidigLevelNummer() {
         return this.huidigLevelNummer;
+    }
+    
+    public boolean getKersSpawned(){
+        return kersSpawned;
+    }
+    
+    public void setKersSpawned(boolean isSpawned){
+        this.kersSpawned = isSpawned;
     }
 }

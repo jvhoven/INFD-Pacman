@@ -5,12 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import spel.enums.Afbeelding;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
 
-public class Kers implements Eetbaar, SpelElement {
-    
-    LeegVakje huidigVakje;
+public class Kers extends SpelElement implements Eetbaar {
     BufferedImage afbeelding = null;
 
     public Kers(LeegVakje startVakje) {

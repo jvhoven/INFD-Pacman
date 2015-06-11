@@ -65,13 +65,13 @@ public class Dijkstra extends SmartAI {
         setVolgendVakje();
     }
 
-    public void setVolgendVakje() {
+    private void setVolgendVakje() {
         if (!P.isEmpty()) {
             volgendVakje = P.get(targetVakje);
         }
     }
 
-    public void relaxeerBuren(LeegVakje vakje) {
+    private void relaxeerBuren(LeegVakje vakje) {
         ArrayList<LeegVakje> buurVakjes = vakje.getLegeBuurVakjes();
 
         int afstand = M.get(vakje) + 1;
@@ -108,7 +108,7 @@ public class Dijkstra extends SmartAI {
         }
     }
 
-    public void debug() {
+    private void debug() {
         Iterator it = P.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();

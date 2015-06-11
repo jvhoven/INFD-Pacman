@@ -3,12 +3,9 @@ package spel.spelelementen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.SpelElement;
 import spel.levelelementen.LeegVakje;
 
-public class Bolletje implements Eetbaar, SpelElement {
-    
-    LeegVakje huidigVakje;
+public class Bolletje extends SpelElement implements Eetbaar {
 
     public Bolletje(LeegVakje startVakje) {
         this.huidigVakje = startVakje;

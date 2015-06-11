@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import spel.interfaces.Eetbaar;
-import spel.interfaces.SpelElement;
+import spel.spelelementen.SpelElement;
 import spel.spelelementen.Bolletje;
 import spel.spelelementen.Pacman;
 import spel.spelelementen.Poppetje;

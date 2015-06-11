@@ -1,7 +1,6 @@
 package spel;
 
 import spel.AIs.*;
-import spel.AIs.SmartAI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -27,7 +26,6 @@ public class Speelveld extends JPanel {
     private Pacman pacman = null;
     private ArrayList<Spookje> spookjes = null;
     private LevelManager levelManager = null;
-    private boolean kersSpawned = false;
 
     Queue<Afbeelding> spookjesAfbeeldingen = new LinkedList<>(
             Arrays.asList(
@@ -48,12 +46,19 @@ public class Speelveld extends JPanel {
     private void initialiseer() {
         this.levelManager = new LevelManager();
         this.pacman = new Pacman(this);
-        this.spel.showLeven(this.pacman.getLevens());
+        this.spookjes = maakSpookjes();
 
+        this.spel.showLevens(this.pacman.getLevens());
         this.huidigeScore = 0;
         this.spel.showScore(this.huidigeScore);
-
         this.spel.showLevel(1);
+
+        this.level = this.levelManager.getLevel(this.pacman, this.spookjes);
+        this.repaint();
+    }
+
+    private ArrayList<Spookje> maakSpookjes() {
+        ArrayList<Spookje> nieuweSpookjes = new ArrayList<>();
 
         Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
         spookje1.setAI(new Dijkstra(spookje1, pacman));
@@ -66,15 +71,13 @@ public class Speelveld extends JPanel {
 
         Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
         spookje4.setAI(new RandomAI(spookje4));
+        
+        nieuweSpookjes.add(spookje1);
+        nieuweSpookjes.add(spookje2);
+        nieuweSpookjes.add(spookje3);
+        nieuweSpookjes.add(spookje4);
 
-        this.spookjes = new ArrayList();
-        this.spookjes.add(spookje1);
-        this.spookjes.add(spookje2);
-        this.spookjes.add(spookje3);
-        this.spookjes.add(spookje4);
-
-        this.level = this.levelManager.getLevel(this.pacman, this.spookjes);
-        this.repaint();
+        return nieuweSpookjes;
     }
 
     public void naarVolgendLevel() {
@@ -88,13 +91,13 @@ public class Speelveld extends JPanel {
         int levens = pacman.getLevens();
 
         if (levens > 0) {
-            this.spel.showLeven(levens);
+            this.spel.showLevens(levens);
             pacman.reset();
             for (Spookje spookje : spookjes) {
                 spookje.reset();
             }
         } else {
-            this.spel.showLeven(levens, true);
+            this.spel.showLevens(levens, true);
             pauzeer();
         }
 
@@ -105,8 +108,7 @@ public class Speelveld extends JPanel {
     }
 
     public void spawnKers() {
-
-        while (!kersSpawned) {
+        while (!levelManager.getKersSpawned()) {
             int x = RandomNumberGenerator.getRandomInt(levelManager.LEVEL_SIZE);
             int y = RandomNumberGenerator.getRandomInt(levelManager.LEVEL_SIZE);
 
@@ -125,12 +127,11 @@ public class Speelveld extends JPanel {
                     Bolletje b = leegVakje.getBolletje();
                     if (b == null) {
                         leegVakje.toevoegenSpelElement(new Kers(leegVakje));
-                        kersSpawned = true;
+                        levelManager.setKersSpawned(true);
                     }
                 }
             }
         }
-
     }
 
     private void teken(Graphics2D g) {
