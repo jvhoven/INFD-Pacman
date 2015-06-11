@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import spel.enums.Afbeelding;
 import spel.enums.SpelStatus;
@@ -61,17 +62,17 @@ public class Speelveld extends JPanel {
         ArrayList<Spookje> nieuweSpookjes = new ArrayList<>();
 
         Spookje spookje1 = new Spookje(this, Afbeelding.SPOOK_ROZE);
-        spookje1.setAI(new Dijkstra(spookje1, pacman));
-
         Spookje spookje2 = new Spookje(this, Afbeelding.SPOOK_ROOD);
-        spookje2.setAI(new AStar(spookje2, pacman));
-
         Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
-        spookje3.setAI(new RandomAI(spookje3));
-
         Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
-        spookje4.setAI(new RandomAI(spookje4));
         
+        if(levelManager.getHuidigLevelNummer() != 0) {
+            spookje1.setAI(new Dijkstra(spookje1, pacman));
+            spookje2.setAI(new Dijkstra(spookje2, pacman));
+            spookje3.setAI(new RandomAI(spookje3));
+            spookje4.setAI(new RandomAI(spookje4));
+        }
+
         nieuweSpookjes.add(spookje1);
         nieuweSpookjes.add(spookje2);
         nieuweSpookjes.add(spookje3);
@@ -81,9 +82,16 @@ public class Speelveld extends JPanel {
     }
 
     public void naarVolgendLevel() {
-        level = levelManager.getVolgendLevel(pacman, spookjes);
-        this.repaint();
-        this.spel.showLevel(levelManager.getHuidigLevelNummer());
+        
+        // Level uitgespeeld
+        if(levelManager.getHuidigLevelNummer() + 1 == 4) {
+            pauzeer();
+            JOptionPane.showMessageDialog(null, "U heeft het spel uitgespeeld!");
+        } else {
+            level = levelManager.getVolgendLevel(pacman, spookjes);
+            this.repaint();
+            this.spel.showLevel(levelManager.getHuidigLevelNummer());
+        }
     }
 
     public void resetPositiePoppetjes() {

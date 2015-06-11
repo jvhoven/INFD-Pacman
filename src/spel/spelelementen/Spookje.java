@@ -36,9 +36,7 @@ public class Spookje extends Poppetje implements Eetbaar {
     @Override
     public void beweegNaar(LeegVakje vakje) {
                 
-        this.huidigVakje.verwijderSpelElement(this);
-        vakje.toevoegenSpelElement(this);
-        this.speelveld.repaint();
+        super.beweegNaar(vakje);
         
         // Als spookje tegen pacman aan "loopt"
         Pacman pacman = vakje.getPacman();
@@ -50,7 +48,11 @@ public class Spookje extends Poppetje implements Eetbaar {
     @Override
     public int opeten() {
         this.reset();
-        ai.pauzeer();
+        
+        if(ai != null) {
+            ai.pauzeer();
+        }
+        
         return this.getPunten();
     }
 

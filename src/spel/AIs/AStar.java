@@ -64,12 +64,8 @@ public class AStar extends SmartAI {
         ArrayList<LeegVakje> buren = huidig.getLegeBuurVakjes();
         LeegVakje kandidaat = buren.get(0);
      
-        for(LeegVakje buur : buren) {       
-            double currentHeuristischeWaarde = berekenHeuristischeWaarde(buur, targetVakje);
-           
-            if(currentHeuristischeWaarde < berekenHeuristischeWaarde(kandidaat, targetVakje) || currentHeuristischeWaarde == berekenHeuristischeWaarde(kandidaat, targetVakje)) {
-                kandidaat = buur; 
-            }
+        for(LeegVakje buur : buren) { 
+            open.add(buur);
         }
         
         if(kandidaat == targetVakje) {
