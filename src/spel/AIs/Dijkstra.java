@@ -63,17 +63,31 @@ public class Dijkstra extends SmartAI {
         }
 
         setVolgendVakje();
+        //debug();
     }
 
     private void setVolgendVakje() {
         if (!P.isEmpty()) {
-            volgendVakje = P.get(targetVakje);
+            if (!this.pacman.isImmuun()) {
+                volgendVakje = P.get(targetVakje);
+            } else {
+                LeegVakje vakjeRichtingPacman = P.get(targetVakje);
+                ArrayList<LeegVakje> buurVakjes = targetVakje.getLegeBuurVakjes();
+                Iterator iterator = buurVakjes.iterator();
+
+                while (iterator.hasNext()) {
+                    LeegVakje buurVakje = (LeegVakje) iterator.next();
+                    if (buurVakje != vakjeRichtingPacman) {
+                        volgendVakje = buurVakje;
+                    }
+                }
+            }
         }
     }
 
     private void relaxeerBuren(LeegVakje vakje) {
         ArrayList<LeegVakje> buurVakjes = vakje.getLegeBuurVakjes();
-
+        
         int afstand = M.get(vakje) + 1;
 
         for (LeegVakje buurVakje : buurVakjes) {
@@ -109,13 +123,15 @@ public class Dijkstra extends SmartAI {
     }
 
     private void debug() {
+        System.out.println("Positie spookje: " + spookje.getHuidigVakje());
+        
         Iterator it = P.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
 
             LeegVakje eindVakje = (LeegVakje) pair.getKey();
             LeegVakje startVakje = (LeegVakje) pair.getValue();
-
+            
             System.out.println(eindVakje + " - " + startVakje);
         }
 

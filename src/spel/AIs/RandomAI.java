@@ -1,7 +1,6 @@
 package spel.AIs;
 
 import java.util.ArrayList;
-import java.util.Random;
 import spel.levelelementen.LeegVakje;
 import spel.spelelementen.Spookje;
 import utilities.RandomNumberGenerator;
@@ -16,11 +15,15 @@ public class RandomAI extends AI {
 
     @Override
     public void berekenVolgendVakje() {
-        ArrayList<LeegVakje> legeBuurVakjes = this.spookje.getHuidigVakje().getLegeBuurVakjes();
+        ArrayList<LeegVakje> legeBuurVakjes = this.spookje.getHuidigVakje().getLegeBuurVakjesZonderSpookje(null);
         if (this.vorigVakje != null) {
             legeBuurVakjes.remove(this.vorigVakje);
         }
-        this.volgendVakje = legeBuurVakjes.get(RandomNumberGenerator.getRandomInt(legeBuurVakjes.size()));
+
+        if (legeBuurVakjes.size() > 0) {
+            this.volgendVakje = legeBuurVakjes.get(RandomNumberGenerator.getRandomInt(legeBuurVakjes.size()));
+
+        }
         this.vorigVakje = this.spookje.getHuidigVakje();
     }
 }

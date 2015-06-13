@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import spel.interfaces.Eetbaar;
 import spel.spelelementen.SpelElement;
 import spel.spelelementen.Bolletje;
 import spel.spelelementen.Pacman;
 import spel.spelelementen.Poppetje;
+import spel.spelelementen.Spookje;
 
 public class LeegVakje extends Vakje implements Comparable {
 
@@ -54,6 +56,18 @@ public class LeegVakje extends Vakje implements Comparable {
             eetbareElementen.add((Eetbaar) e);
         }
         return eetbareElementen;
+    }
+
+    public Spookje getSpookje() {
+        ArrayList<Eetbaar> eetbareElementen = getEetbareSpelElementen();
+        Iterator iterator = eetbareElementen.iterator();
+        while(iterator.hasNext()) {
+            Eetbaar e = (Eetbaar)iterator.next();
+            if (e instanceof Spookje) {
+                return (Spookje) e;
+            }
+        }
+        return null;
     }
 
     public Bolletje getBolletje() {

@@ -1,6 +1,7 @@
 package spel.spelelementen;
 
 import java.awt.Graphics2D;
+import javax.swing.Timer;
 import spel.Speelveld;
 import spel.levelelementen.LeegVakje;
 
@@ -8,6 +9,7 @@ public abstract class Poppetje extends SpelElement {
     
     protected Speelveld speelveld;
     protected LeegVakje startVakje;
+    protected Timer beweegTimer;
     
     @Override
     public abstract void teken(Graphics2D g);

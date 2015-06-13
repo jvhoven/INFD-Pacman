@@ -14,13 +14,13 @@ public abstract class AI {
 
     public AI(final Spookje spookje) {
         this.spookje = spookje;
-        this.timer = new Timer(1000, new ActionListener(){
+        this.timer = new Timer(300, new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((Timer)e.getSource()).setDelay(1000);
+                ((Timer)e.getSource()).setDelay(300);
                 AI.this.berekenVolgendVakje();
-                if (AI.this.volgendVakje != null) {
+                if (AI.this.volgendVakje != null && AI.this.volgendVakje.getSpookje() == null ) {
                     spookje.beweegNaar(AI.this.volgendVakje);
                 }
             }
@@ -36,7 +36,7 @@ public abstract class AI {
     }
     
     public void pauzeer() {
-        this.timer.setDelay(5000);
+        this.timer.setDelay(1500);
     }
 
     public abstract void berekenVolgendVakje();

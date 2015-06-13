@@ -4,25 +4,40 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import spel.enums.Richting;
+import spel.spelelementen.Spookje;
 
 public abstract class Vakje {
-    
+
     public static final int SIZE = 43;
     public Positie positie;
     public HashMap<Richting, Vakje> buurVakjes;
 
     public Vakje getBuurVakje(Richting richting) {
-        return this.buurVakjes.get((Object)richting);
+        return this.buurVakjes.get(richting);
     }
 
     public ArrayList<LeegVakje> getLegeBuurVakjes() {
         ArrayList<Vakje> vakjes = new ArrayList<>(this.buurVakjes.values());
         ArrayList<LeegVakje> legeVakjes = new ArrayList<>();
         for (Vakje vakje : vakjes) {
-            if (!(vakje instanceof LeegVakje)) continue;
-            legeVakjes.add((LeegVakje)vakje);
+            if (!(vakje instanceof LeegVakje)) {
+                continue;
+            }
+            legeVakjes.add((LeegVakje) vakje);
         }
         return legeVakjes;
+    }
+
+    public ArrayList<LeegVakje> getLegeBuurVakjesZonderSpookje(Spookje uitzondering) {
+        ArrayList<LeegVakje> legeVakjes = getLegeBuurVakjes();
+        ArrayList<LeegVakje> legeVakjesZonderSpookje = new ArrayList<>();
+        for (LeegVakje vakje : legeVakjes) {
+            Spookje spookje = vakje.getSpookje();
+            if (spookje == null || spookje == uitzondering) {
+                legeVakjesZonderSpookje.add(vakje);
+            }
+        }
+        return legeVakjesZonderSpookje;
     }
 
     public void setBuurVakjes(Vakje[][] level, int LEVEL_SIZE) {
@@ -42,4 +57,3 @@ public abstract class Vakje {
 
     public abstract void teken(Graphics2D var1);
 }
-

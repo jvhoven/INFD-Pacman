@@ -49,6 +49,12 @@ public class Pacman extends Poppetje implements KeyListener {
                 Pacman.this.isImmuun = false;
             }
         });
+        this.beweegTimer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                probeerTeBewegen(richting);
+            }
+        });
         this.pacmanPlaatje = Afbeelding.PACMAN.getAfbeelding();
     }
 
@@ -167,14 +173,16 @@ public class Pacman extends Poppetje implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (!this.arrowKeyPressed) {
             this.setRichting(e);
-            this.probeerTeBewegen(this.richting);
+            probeerTeBewegen(richting);
+            beweegTimer.start();
         }
         this.arrowKeyPressed = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        this.arrowKeyPressed = false;
+        beweegTimer.stop();
+        this.arrowKeyPressed = false;        
     }
 
 }
