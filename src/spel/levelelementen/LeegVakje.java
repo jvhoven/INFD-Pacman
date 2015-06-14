@@ -15,6 +15,10 @@ import spel.spelelementen.Spookje;
 public class LeegVakje extends Vakje implements Comparable {
 
     ArrayList<SpelElement> spelElementen;
+
+    public boolean gebruiktDijkstra = true;
+
+    //dijkstra>
     private int tempAfstand = 0;
 
     public void setTempAfstand(int afstand) {
@@ -24,6 +28,14 @@ public class LeegVakje extends Vakje implements Comparable {
     public int getTempAfstand() {
         return this.tempAfstand;
     }
+    //<dijkstra
+
+    //Astar>
+    public LeegVakje parent;
+    public int H;
+    public int F;
+    public int G;
+    //<Astar
 
     public LeegVakje(Positie positie) {
         this.positie = positie;
@@ -61,8 +73,8 @@ public class LeegVakje extends Vakje implements Comparable {
     public Spookje getSpookje() {
         ArrayList<Eetbaar> eetbareElementen = getEetbareSpelElementen();
         Iterator iterator = eetbareElementen.iterator();
-        while(iterator.hasNext()) {
-            Eetbaar e = (Eetbaar)iterator.next();
+        while (iterator.hasNext()) {
+            Eetbaar e = (Eetbaar) iterator.next();
             if (e instanceof Spookje) {
                 return (Spookje) e;
             }
@@ -110,13 +122,21 @@ public class LeegVakje extends Vakje implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if (o instanceof LeegVakje) {
-            LeegVakje leegVakje = (LeegVakje) o;
-            if (this.tempAfstand < leegVakje.getTempAfstand()) {
-                return 0;
+        if (gebruiktDijkstra) {
+            if (o instanceof LeegVakje) {
+                LeegVakje leegVakje = (LeegVakje) o;
+                if (this.tempAfstand < leegVakje.getTempAfstand()) {
+                    return 0;
+                }
+            }
+        } else {
+            if (o instanceof LeegVakje) {
+                LeegVakje leegVakje = (LeegVakje) o;
+                if (this.F < leegVakje.F) {
+                    return 0;
+                }
             }
         }
-
         return 1;
     }
 
