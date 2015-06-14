@@ -67,8 +67,8 @@ public class Speelveld extends JPanel {
         Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
         
         if(levelManager.getHuidigLevelNummer() != 0) {
-            spookje1.setAI(new Dijkstra(spookje1, pacman));
-            spookje2.setAI(new Dijkstra(spookje2, pacman));
+            spookje1.setAI(new AStar(spookje1, pacman));
+            spookje2.setAI(new AStar(spookje2, pacman));
             spookje3.setAI(new RandomAI(spookje3));
             spookje4.setAI(new RandomAI(spookje4));
         }

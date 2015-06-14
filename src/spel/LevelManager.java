@@ -1,7 +1,6 @@
 package spel;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import spel.enums.VakjeType;
 import spel.spelelementen.SpelElement;
 import spel.levelelementen.LeegVakje;
