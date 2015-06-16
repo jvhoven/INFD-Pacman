@@ -50,7 +50,7 @@ public class AStar extends SmartAI {
             }
             //test(false);
         }
-        if (!pacman.isImmuun()) {
+        if (!this.spookje.getIsEetbaar()) {
             this.volgendVakje = targetVakje.parent;
         } else {
             LeegVakje vakjeRichtingPacman = targetVakje.parent;

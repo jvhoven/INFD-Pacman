@@ -22,9 +22,7 @@ public class Pacman extends Poppetje implements KeyListener {
     private boolean arrowKeyPressed = false;
     private BufferedImage pacmanPlaatje = null;
     private Richting richting;
-    private int levens = 0;
-    private boolean isImmuun = false;
-    private Timer immuunTimer = null;
+    private int levens = 0;       
     private int aantalOpgegetenBolletjes = 0;
 
     public Vakje startPositie = null;
@@ -42,14 +40,7 @@ public class Pacman extends Poppetje implements KeyListener {
         this.speelveld = speelveld;
         this.richting = Richting.NEUTRAAL;
         this.levens = 3;
-        this.immuunTimer = new Timer(10000, new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Pacman.this.immuunTimer.stop();
-                Pacman.this.isImmuun = false;
-            }
-        });
         this.beweegTimer = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,20 +99,15 @@ public class Pacman extends Poppetje implements KeyListener {
 
         for (Eetbaar e : eetbaarSpelElement) {
             int punten;
-            if (e instanceof Spookje) {
-                if (this.isImmuun) {
+            if (e instanceof Spookje) {                
+                if (((Spookje)e).getIsEetbaar()) {
                     etenEetbaarSpelElement(e);
                 } else {
                     this.verwijderLeven();
                 }
             } else if (e instanceof Superbolletje) {
                 etenEetbaarSpelElement(e);
-                if (immuunTimer.isRunning()) {
-                    immuunTimer.restart();
-                } else {
-                    immuunTimer.start();
-                }
-                isImmuun = true;
+                speelveld.maakSpookjesEetbaar();
             } else {
                 etenEetbaarSpelElement(e);
             }
@@ -146,10 +132,6 @@ public class Pacman extends Poppetje implements KeyListener {
             aantalOpgegetenBolletjes = 0;
             speelveld.naarVolgendLevel();
         }
-    }
-
-    public boolean isImmuun() {
-        return isImmuun;
     }
 
     private Richting getRichting(KeyEvent e) {

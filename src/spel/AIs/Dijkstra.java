@@ -84,7 +84,7 @@ public class Dijkstra extends SmartAI {
 
     private void setVolgendVakje() {
         if (!P.isEmpty()) {
-            if (!this.pacman.isImmuun()) {
+            if (!this.spookje.getIsEetbaar()) {
                 volgendVakje = P.get(targetVakje);
             } else {
                 LeegVakje vakjeRichtingPacman = P.get(targetVakje);

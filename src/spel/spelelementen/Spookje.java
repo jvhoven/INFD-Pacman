@@ -3,7 +3,10 @@ package spel.spelelementen;
 import spel.AIs.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import javax.swing.Timer;
 import spel.Speelveld;
 import spel.enums.Afbeelding;
 import spel.interfaces.Eetbaar;
@@ -14,6 +17,17 @@ public class Spookje extends Poppetje implements Eetbaar {
     private BufferedImage spookPlaatje = null;
     private AI ai = null;
     private LeegVakje vorigVakje;
+    private boolean isEetBaar = false;
+    private Timer eetbaarTimer = null;
+    
+    public boolean getIsEetbaar(){
+        return this.isEetBaar;
+    }
+    
+    public void maakEetbaar(){
+        this.isEetBaar = true;
+        this.eetbaarTimer.start();        
+    }
 
     public LeegVakje getVorigVakje() {
         return this.vorigVakje;
@@ -26,6 +40,15 @@ public class Spookje extends Poppetje implements Eetbaar {
     public Spookje(Speelveld speelveld, Afbeelding afbeelding) {
         this.speelveld = speelveld;
         this.spookPlaatje = afbeelding.getAfbeelding();
+        
+        this.eetbaarTimer = new Timer(10000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Spookje.this.eetbaarTimer.stop();
+                Spookje.this.isEetBaar = false;
+            }
+        });
     }
 
     @Override
@@ -50,7 +73,7 @@ public class Spookje extends Poppetje implements Eetbaar {
         // Als spookje tegen pacman aan "loopt"
         Pacman pacman = vakje.getPacman();
         if (pacman != null) {
-            if (!pacman.isImmuun()) {
+            if (!this.isEetBaar) {
                 pacman.verwijderLeven();
             } else {
                 pacman.etenEetbaarSpelElement(this);
@@ -61,12 +84,19 @@ public class Spookje extends Poppetje implements Eetbaar {
     @Override
     public int opeten() {
         this.reset();
-
+        this.isEetBaar = false;
+        
         if (ai != null) {
-            ai.pauzeer();
+            ai.pauzeer(1500);
         }
 
         return this.getPunten();
+    }
+    
+    @Override
+    public void reset(){
+        super.reset();
+        ai.pauzeer(1500);
     }
 
     @Override

@@ -35,8 +35,8 @@ public abstract class AI {
         this.timer.stop();
     }
     
-    public void pauzeer() {
-        this.timer.setDelay(1500);
+    public void pauzeer(int timeInMilliseconds) {
+        this.timer.setDelay(timeInMilliseconds);
     }
 
     public abstract void berekenVolgendVakje();

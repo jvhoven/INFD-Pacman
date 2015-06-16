@@ -142,6 +142,12 @@ public class Speelveld extends JPanel {
             }
         }
     }
+    
+    public void maakSpookjesEetbaar(){
+        for(Spookje spookje : spookjes){
+            spookje.maakEetbaar();
+        }
+    }
 
     @Override
     public void paintComponent(Graphics g) {
