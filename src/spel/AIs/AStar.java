@@ -50,7 +50,28 @@ public class AStar extends SmartAI {
             }
             //test(false);
         }
-        this.volgendVakje = targetVakje.parent;
+        if (!pacman.isImmuun()) {
+            this.volgendVakje = targetVakje.parent;
+        } else {
+            LeegVakje vakjeRichtingPacman = targetVakje.parent;
+            ArrayList<LeegVakje> buurVakjes = targetVakje.getLegeBuurVakjes();
+
+            LeegVakje vorigVakje = spookje.getVorigVakje();
+            if (vorigVakje != null) {
+                buurVakjes.remove(vorigVakje);
+            }
+
+            Iterator iterator = buurVakjes.iterator();
+
+            while (iterator.hasNext()) {
+                LeegVakje buurVakje = (LeegVakje) iterator.next();
+                if (buurVakje != vakjeRichtingPacman && buurVakje.getSpookje() == null) {
+                    volgendVakje = buurVakje;
+                }
+            }
+            
+            spookje.setVorigVakje(spookje.getHuidigVakje());
+        }
     }
     long startTime;
     long eindTijd;

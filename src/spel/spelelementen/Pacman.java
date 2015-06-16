@@ -52,6 +52,7 @@ public class Pacman extends Poppetje implements KeyListener {
         this.beweegTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                beweegTimer.setDelay(100);
                 probeerTeBewegen(richting);
             }
         });
@@ -112,7 +113,11 @@ public class Pacman extends Poppetje implements KeyListener {
                 }
             } else if (e instanceof Superbolletje) {
                 etenEetbaarSpelElement(e);
-                immuunTimer.start();
+                if (immuunTimer.isRunning()) {
+                    immuunTimer.restart();
+                } else {
+                    immuunTimer.start();
+                }
                 isImmuun = true;
             } else {
                 etenEetbaarSpelElement(e);
@@ -120,7 +125,7 @@ public class Pacman extends Poppetje implements KeyListener {
         }
     }
 
-    private void etenEetbaarSpelElement(Eetbaar eetbaarSpelElement) {
+    public void etenEetbaarSpelElement(Eetbaar eetbaarSpelElement) {
         int punten = eetbaarSpelElement.opeten();
         this.speelveld.addPunten(punten);
 
@@ -144,25 +149,22 @@ public class Pacman extends Poppetje implements KeyListener {
         return isImmuun;
     }
 
-    private void setRichting(KeyEvent e) {
+    private Richting getRichting(KeyEvent e) {
         switch (e.getKeyCode()) {
 
             case KeyEvent.VK_DOWN:
-                this.richting = Richting.OMLAAG;
-                break;
+                return Richting.OMLAAG;
 
             case KeyEvent.VK_UP:
-                this.richting = Richting.OMHOOG;
-                break;
+                return Richting.OMHOOG;
 
             case KeyEvent.VK_LEFT:
-                this.richting = Richting.LINKS;
-                break;
+                return Richting.LINKS;                
 
             case KeyEvent.VK_RIGHT:
-                this.richting = Richting.RECHTS;
-                break;
+                return Richting.RECHTS;
         }
+        return Richting.NEUTRAAL;
     }
 
     @Override
@@ -171,18 +173,18 @@ public class Pacman extends Poppetje implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!this.arrowKeyPressed) {
-            this.setRichting(e);
-            probeerTeBewegen(richting);
-            beweegTimer.start();
-        }
-        this.arrowKeyPressed = true;
+        this.richting = getRichting(e);
+        beweegTimer.setDelay(0);
+        beweegTimer.start();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        beweegTimer.stop();
-        this.arrowKeyPressed = false;        
+        Richting losgelatenRichting = getRichting(e);
+        
+        if(losgelatenRichting == this.richting){
+           beweegTimer.stop(); 
+        }
     }
 
 }

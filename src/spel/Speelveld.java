@@ -55,6 +55,7 @@ public class Speelveld extends JPanel {
         this.spel.showLevel(1);
 
         this.level = this.levelManager.getLevel(this.pacman, this.spookjes);
+
         this.repaint();
     }
 
@@ -65,8 +66,8 @@ public class Speelveld extends JPanel {
         Spookje spookje2 = new Spookje(this, Afbeelding.SPOOK_ROOD);
         Spookje spookje3 = new Spookje(this, Afbeelding.SPOOK_BLAUW);
         Spookje spookje4 = new Spookje(this, Afbeelding.SPOOK_ROOD);
-        
-        if(levelManager.getHuidigLevelNummer() != 0) {
+
+        if (levelManager.getHuidigLevelNummer() != 0) {
             spookje1.setAI(new AStar(spookje1, pacman));
             spookje2.setAI(new AStar(spookje2, pacman));
             spookje3.setAI(new RandomAI(spookje3));
@@ -82,9 +83,9 @@ public class Speelveld extends JPanel {
     }
 
     public void naarVolgendLevel() {
-        
+
         // Level uitgespeeld
-        if(levelManager.getHuidigLevelNummer() + 1 == 4) {
+        if (levelManager.getHuidigLevelNummer() + 1 == 4) {
             pauzeer();
             JOptionPane.showMessageDialog(null, "U heeft het spel uitgespeeld!");
         } else {
@@ -142,19 +143,16 @@ public class Speelveld extends JPanel {
         }
     }
 
-    private void teken(Graphics2D g) {
-        this.setBackground(new Color(224, 224, 224));
-        for (int x = 0; x < levelManager.LEVEL_SIZE; ++x) {
-            for (int y = 0; y < levelManager.LEVEL_SIZE; ++y) {
-                this.level[x][y].teken(g);
-            }
-        }
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.teken((Graphics2D) g);
+
+        this.setBackground(new Color(224, 224, 224));
+        for (int x = 0; x < levelManager.LEVEL_SIZE; ++x) {
+            for (int y = 0; y < levelManager.LEVEL_SIZE; ++y) {
+                this.level[x][y].teken((Graphics2D)g);
+            }
+        }
     }
 
     public void start() {

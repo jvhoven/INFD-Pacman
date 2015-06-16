@@ -7,8 +7,6 @@ import utilities.RandomNumberGenerator;
 
 public class RandomAI extends AI {
 
-    private LeegVakje vorigVakje = null;
-
     public RandomAI(Spookje spookje) {
         super(spookje);
     }
@@ -16,14 +14,16 @@ public class RandomAI extends AI {
     @Override
     public void berekenVolgendVakje() {
         ArrayList<LeegVakje> legeBuurVakjes = this.spookje.getHuidigVakje().getLegeBuurVakjesZonderSpookje(null);
-        if (this.vorigVakje != null) {
-            legeBuurVakjes.remove(this.vorigVakje);
+
+        LeegVakje vorigVakje = spookje.getVorigVakje();
+        if (vorigVakje != null) {
+            legeBuurVakjes.remove(vorigVakje);
         }
 
         if (legeBuurVakjes.size() > 0) {
             this.volgendVakje = legeBuurVakjes.get(RandomNumberGenerator.getRandomInt(legeBuurVakjes.size()));
 
         }
-        this.vorigVakje = this.spookje.getHuidigVakje();
+        spookje.setVorigVakje(spookje.getHuidigVakje());
     }
 }

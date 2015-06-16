@@ -1,6 +1,7 @@
 package spel.levelelementen;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -122,19 +123,19 @@ public class LeegVakje extends Vakje implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if (gebruiktDijkstra) {
-            if (o instanceof LeegVakje) {
-                LeegVakje leegVakje = (LeegVakje) o;
-                if (this.tempAfstand < leegVakje.getTempAfstand()) {
-                    return 0;
-                }
-            }
-        } else {
-            if (o instanceof LeegVakje) {
-                LeegVakje leegVakje = (LeegVakje) o;
-                if (this.F < leegVakje.F) {
-                    return 0;
-                }
+        /*voor dijkstra algoritme
+         if (o instanceof LeegVakje) {
+         LeegVakje leegVakje = (LeegVakje) o;
+         if (this.tempAfstand < leegVakje.getTempAfstand()) {
+         return 0;
+         }
+         }
+         */
+
+        if (o instanceof LeegVakje) {
+            LeegVakje leegVakje = (LeegVakje) o;
+            if (this.F < leegVakje.F) {
+                return 0;
             }
         }
         return 1;

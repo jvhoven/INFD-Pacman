@@ -10,9 +10,18 @@ import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
 
 public class Spookje extends Poppetje implements Eetbaar {
-    
+
     private BufferedImage spookPlaatje = null;
     private AI ai = null;
+    private LeegVakje vorigVakje;
+
+    public LeegVakje getVorigVakje() {
+        return this.vorigVakje;
+    }
+
+    public void setVorigVakje(LeegVakje vakje) {
+        this.vorigVakje = vakje;
+    }
 
     public Spookje(Speelveld speelveld, Afbeelding afbeelding) {
         this.speelveld = speelveld;
@@ -32,27 +41,31 @@ public class Spookje extends Poppetje implements Eetbaar {
             }
         }
     }
-    
+
     @Override
     public void beweegNaar(LeegVakje vakje) {
-                
+
         super.beweegNaar(vakje);
-        
+
         // Als spookje tegen pacman aan "loopt"
         Pacman pacman = vakje.getPacman();
-        if(pacman != null && !pacman.isImmuun()) {
-            pacman.verwijderLeven();
+        if (pacman != null) {
+            if (!pacman.isImmuun()) {
+                pacman.verwijderLeven();
+            } else {
+                pacman.etenEetbaarSpelElement(this);
+            }
         }
     }
-    
+
     @Override
     public int opeten() {
         this.reset();
-        
-        if(ai != null) {
+
+        if (ai != null) {
             ai.pauzeer();
         }
-        
+
         return this.getPunten();
     }
 
@@ -77,4 +90,3 @@ public class Spookje extends Poppetje implements Eetbaar {
         }
     }
 }
-
