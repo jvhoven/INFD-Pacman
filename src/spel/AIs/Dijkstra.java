@@ -21,7 +21,7 @@ import spel.spelelementen.Spookje;
  */
 public class Dijkstra extends SmartAI {
 
-    //datastructuur voor het bijhouden van de afstanden van alle knopen tot de startknop van.
+    //datastructuur voor het bijhouden van de afstanden van alle knopen tot de startknoop van.
     private HashMap<LeegVakje, Integer> M;
 
     //datastructuur voor de knopen die al wel ‘bezocht’ zijn maar waarvan de afstand tot startknoop nog niet definitief is.
@@ -44,6 +44,7 @@ public class Dijkstra extends SmartAI {
         targetVakje = spookje.getHuidigVakje();
 
         if (pacman.getHuidigVakje() != this.startVakje) {
+            //test(true);
             M = new HashMap<>();
             Q = new PriorityQueue<>();
             S = new ArrayList<>();
@@ -59,11 +60,26 @@ public class Dijkstra extends SmartAI {
                 LeegVakje current = Q.poll();
                 S.add(current);
                 relaxeerBuren(current);
-            }
-        }
-
+            }            
+            //test(false);
+        }     
         setVolgendVakje();
         //debug();
+    }
+    
+    long startTime;
+    long eindTijd;
+
+    public void test(boolean start) {
+
+        if (start) {
+            startTime = System.nanoTime();
+        } else {
+            eindTijd = System.nanoTime();
+            long resultaat = eindTijd - startTime;
+
+            System.out.println("Dijkstra:" + startTime + ", " + eindTijd + ", " + resultaat + ", " + this.pacman.getHuidigVakje() + ", " + spookje.getHuidigVakje());
+        }
     }
 
     private void setVolgendVakje() {

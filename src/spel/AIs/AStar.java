@@ -30,15 +30,16 @@ public class AStar extends SmartAI {
 
     @Override
     public void berekenVolgendVakje() {
-        startVakje = pacman.getHuidigVakje();
+        targetVakje = spookje.getHuidigVakje();
 
-        if (pacman.getHuidigVakje() != this.targetVakje) {
+        if (pacman.getHuidigVakje() != this.startVakje) {
+            //test(true);
 
             open.clear();
             closed.clear();
             targetVakjeBereikt = false;
+            startVakje = pacman.getHuidigVakje();
 
-            targetVakje = spookje.getHuidigVakje();
             open.add(startVakje);
 
             while (!open.isEmpty() && !closed.contains(targetVakje)) {
@@ -47,8 +48,23 @@ public class AStar extends SmartAI {
 
                 analyseerBuren(current);
             }
+            //test(false);
         }
         this.volgendVakje = targetVakje.parent;
+    }
+    long startTime;
+    long eindTijd;
+
+    public void test(boolean start) {
+
+        if (start) {
+            startTime = System.nanoTime();
+        } else {
+            eindTijd = System.nanoTime();
+            long resultaat = eindTijd - startTime;
+
+            System.out.println("AStar: " + startTime + ", " + eindTijd + ", " + resultaat + ", " + this.pacman.getHuidigVakje() + ", " + spookje.getHuidigVakje());
+        }
     }
 
     public void analyseerBuren(LeegVakje huidigVakje) {
