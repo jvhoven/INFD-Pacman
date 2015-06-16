@@ -12,6 +12,7 @@ import javax.swing.Timer;
 import spel.Speelveld;
 import spel.enums.Afbeelding;
 import spel.enums.Richting;
+import spel.enums.SpelStatus;
 import spel.interfaces.Eetbaar;
 import spel.levelelementen.LeegVakje;
 import spel.levelelementen.Vakje;
@@ -49,11 +50,13 @@ public class Pacman extends Poppetje implements KeyListener {
                 Pacman.this.isImmuun = false;
             }
         });
-        this.beweegTimer = new Timer(100, new ActionListener() {
+        this.beweegTimer = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                beweegTimer.setDelay(100);
-                probeerTeBewegen(richting);
+                if (speelveld.getSpelStatus() == SpelStatus.GESTART) {
+                    beweegTimer.setDelay(200);
+                    probeerTeBewegen(richting);
+                }
             }
         });
         this.pacmanPlaatje = Afbeelding.PACMAN.getAfbeelding();
@@ -159,7 +162,7 @@ public class Pacman extends Poppetje implements KeyListener {
                 return Richting.OMHOOG;
 
             case KeyEvent.VK_LEFT:
-                return Richting.LINKS;                
+                return Richting.LINKS;
 
             case KeyEvent.VK_RIGHT:
                 return Richting.RECHTS;
@@ -173,18 +176,27 @@ public class Pacman extends Poppetje implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        this.richting = getRichting(e);
-        beweegTimer.setDelay(0);
-        beweegTimer.start();
+        if (this.speelveld.getSpelStatus() == SpelStatus.GESTART) {
+            this.richting = getRichting(e);
+
+            if (!arrowKeyPressed) {
+                probeerTeBewegen(richting);
+            }
+            this.arrowKeyPressed = true;
+
+            beweegTimer.setDelay(0);
+            beweegTimer.start();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         Richting losgelatenRichting = getRichting(e);
-        
-        if(losgelatenRichting == this.richting){
-           beweegTimer.stop(); 
-        }
-    }
 
+        if (losgelatenRichting == this.richting) {
+            beweegTimer.stop();
+        }
+
+        arrowKeyPressed = false;
+    }
 }
