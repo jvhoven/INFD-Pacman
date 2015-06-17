@@ -18,7 +18,6 @@ import spel.spelelementen.Spookje;
  */
 public class AStar extends SmartAI {
 
-    boolean targetVakjeBereikt = false;
     PriorityQueue<LeegVakje> open = null;
     ArrayList<LeegVakje> closed = null;
 
@@ -33,59 +32,45 @@ public class AStar extends SmartAI {
         targetVakje = spookje.getHuidigVakje();
 
         if (pacman.getHuidigVakje() != this.startVakje) {
-            //test(true);
-
             open.clear();
             closed.clear();
-            targetVakjeBereikt = false;
             startVakje = pacman.getHuidigVakje();
 
             open.add(startVakje);
 
             while (!open.isEmpty() && !closed.contains(targetVakje)) {
-                LeegVakje current = open.poll();
-                closed.add(current);
+                LeegVakje huidigVakje = open.poll();
+                closed.add(huidigVakje);
 
-                analyseerBuren(current);
+                analyseerBuren(huidigVakje);
             }
-            //test(false);
         }
+        
+        for(LeegVakje vakje : closed){
+            System.out.println(vakje + " G: " + vakje.G + " H: " + vakje.H + " F: " + vakje.F);
+        }
+        
         if (!this.spookje.getIsEetbaar()) {
-            this.volgendVakje = targetVakje.parent;
+            this.volgendVakje = targetVakje.voorliggendVakje;
         } else {
-            LeegVakje vakjeRichtingPacman = targetVakje.parent;
-            ArrayList<LeegVakje> buurVakjes = targetVakje.getLegeBuurVakjes();
-
-            LeegVakje vorigVakje = spookje.getVorigVakje();
-            if (vorigVakje != null) {
-                buurVakjes.remove(vorigVakje);
-            }
-
-            Iterator iterator = buurVakjes.iterator();
-
-            while (iterator.hasNext()) {
-                LeegVakje buurVakje = (LeegVakje) iterator.next();
-                if (buurVakje != vakjeRichtingPacman && buurVakje.getSpookje() == null) {
-                    volgendVakje = buurVakje;
-                }
-            }
-            
-            spookje.setVorigVakje(spookje.getHuidigVakje());
+            setVolgendVakjeEetbaarSpookje();
         }
     }
-    long startTime;
-    long eindTijd;
 
-    public void test(boolean start) {
-
-        if (start) {
-            startTime = System.nanoTime();
-        } else {
-            eindTijd = System.nanoTime();
-            long resultaat = eindTijd - startTime;
-
-            System.out.println("AStar: " + startTime + ", " + eindTijd + ", " + resultaat + ", " + this.pacman.getHuidigVakje() + ", " + spookje.getHuidigVakje());
+    public void setVolgendVakjeEetbaarSpookje() {
+        LeegVakje vakjeRichtingPacman = targetVakje.voorliggendVakje;
+        ArrayList<LeegVakje> buurVakjes = targetVakje.getLegeBuurVakjes();
+        LeegVakje vorigVakje = spookje.getVorigVakje();
+        
+        Iterator iterator = buurVakjes.iterator();
+        while (iterator.hasNext()) {
+            LeegVakje buurVakje = (LeegVakje) iterator.next();
+            if (buurVakje != vakjeRichtingPacman && buurVakje.getSpookje() == null && vorigVakje != buurVakje) {
+                volgendVakje = buurVakje;
+            }
         }
+
+        spookje.setVorigVakje(spookje.getHuidigVakje());
     }
 
     public void analyseerBuren(LeegVakje huidigVakje) {
@@ -94,12 +79,12 @@ public class AStar extends SmartAI {
 
         while (iterator.hasNext()) {
             LeegVakje buurVakje = (LeegVakje) iterator.next();
-            if (!open.contains(buurVakje) && !closed.contains(buurVakje)) {                
+            if (!open.contains(buurVakje) && !closed.contains(buurVakje)) {
 
                 buurVakje.H = berekenHeuristischeWaarde(buurVakje);
 
-                buurVakje.parent = huidigVakje;
-                buurVakje.G = 10 + buurVakje.parent.G;
+                buurVakje.voorliggendVakje = huidigVakje;
+                buurVakje.G = 1 + buurVakje.voorliggendVakje.G;
                 buurVakje.F = buurVakje.H + buurVakje.G;
 
                 open.add(buurVakje);
@@ -113,6 +98,8 @@ public class AStar extends SmartAI {
         int dy = Math.abs(huidigVakje.positie.y - targetVakje.positie.y);
 
         int heuristischeWaarde = dx + dy;
+        heuristischeWaarde *= 10;
+
         return heuristischeWaarde;
     }
 

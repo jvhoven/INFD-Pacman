@@ -29,7 +29,7 @@ public class LeegVakje extends Vakje implements Comparable {
     //<dijkstra
 
     //Astar>
-    public LeegVakje parent;
+    public LeegVakje voorliggendVakje;
     public int H;
     public int F;
     public int G;
@@ -132,6 +132,8 @@ public class LeegVakje extends Vakje implements Comparable {
         if (o instanceof LeegVakje) {
             LeegVakje leegVakje = (LeegVakje) o;
             if (this.F < leegVakje.F) {
+                return -1;
+            } else if(this.F == leegVakje.F){
                 return 0;
             }
         }
