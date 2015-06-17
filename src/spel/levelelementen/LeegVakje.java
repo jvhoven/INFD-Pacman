@@ -1,7 +1,6 @@
 package spel.levelelementen;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +15,6 @@ import spel.spelelementen.Spookje;
 public class LeegVakje extends Vakje implements Comparable {
 
     ArrayList<SpelElement> spelElementen;
-
-    public boolean gebruiktDijkstra = true;
 
     //dijkstra>
     private int tempAfstand = 0;

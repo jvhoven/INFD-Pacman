@@ -13,8 +13,10 @@ import utilities.RandomNumberGenerator;
 public class LevelManager {
 
     public int LEVEL_SIZE = 15;
+    
     private int huidigLevelNummer = 1;
     private int totaalAantalBolletjes = 0;
+    
     private boolean kersSpawned = false;
 
     public Vakje[][] getVolgendLevel(Pacman pacman, ArrayList<Spookje> spookjes) {

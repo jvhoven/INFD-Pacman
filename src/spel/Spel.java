@@ -9,8 +9,8 @@ public class Spel extends JFrame {
     private final int BREEDTE = 661;
     private final int HOOGTE = 719;
     
-    Speelveld speelveld = null;
-    GUI gui = null;
+    private Speelveld speelveld = null;
+    private GUI gui = null;
 
     public Spel() {
         super("INF-D Pacman Groep B6");

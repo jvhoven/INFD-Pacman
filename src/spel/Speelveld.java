@@ -20,9 +20,10 @@ import utilities.RandomNumberGenerator;
 
 public class Speelveld extends JPanel {
 
+    private int huidigeScore = 0;
+    
     private Spel spel = null;
     private SpelStatus spelStatus = null;
-    private int huidigeScore = 0;
     private Vakje[][] level = null;
     private Pacman pacman = null;
     private ArrayList<Spookje> spookjes = null;

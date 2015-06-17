@@ -20,21 +20,12 @@ import spel.levelelementen.Vakje;
 public class Pacman extends Poppetje implements KeyListener {
 
     private boolean arrowKeyPressed = false;
-    private BufferedImage pacmanPlaatje = null;
-    private Richting richting;
     private int levens = 0;       
     private int aantalOpgegetenBolletjes = 0;
-
-    public Vakje startPositie = null;
-
-    public int getLevens() {
-        return this.levens;
-    }
-
-    public void verwijderLeven() {
-        --this.levens;
-        this.speelveld.resetPositiePoppetjes();
-    }
+    
+    private BufferedImage pacmanPlaatje = null;
+    
+    private Richting richting;      
 
     public Pacman(Speelveld speelveld) {
         this.speelveld = speelveld;
@@ -52,7 +43,16 @@ public class Pacman extends Poppetje implements KeyListener {
         });
         this.pacmanPlaatje = Afbeelding.PACMAN.getAfbeelding();
     }
+    
+    public int getLevens() {
+        return this.levens;
+    }
 
+    public void verwijderLeven() {
+        --this.levens;
+        this.speelveld.resetPositiePoppetjes();
+    }
+    
     @Override
     public void teken(Graphics2D g) {
         if (this.huidigVakje != null) {

@@ -28,16 +28,16 @@ public abstract class Poppetje extends SpelElement {
         this.huidigVakje = vakje;
     }
     
+    public LeegVakje getHuidigVakje() {
+        return this.huidigVakje;
+    }
+    
     public void setStartVakje(LeegVakje vakje) {
         this.startVakje = vakje;
     }
     
     public LeegVakje getStartVakje(){
         return this.startVakje;
-    }
-
-    public LeegVakje getHuidigVakje() {
-        return this.huidigVakje;
     }
 }
 

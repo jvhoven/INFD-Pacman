@@ -20,6 +20,20 @@ public class Spookje extends Poppetje implements Eetbaar {
     private boolean isEetBaar = false;
     private Timer eetbaarTimer = null;
     
+    public Spookje(Speelveld speelveld, Afbeelding afbeelding) {
+        this.speelveld = speelveld;
+        this.spookPlaatje = afbeelding.getAfbeelding();
+        
+        this.eetbaarTimer = new Timer(10000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Spookje.this.eetbaarTimer.stop();
+                Spookje.this.isEetBaar = false;
+            }
+        });
+    }
+    
     public boolean getIsEetbaar(){
         return this.isEetBaar;
     }
@@ -36,21 +50,7 @@ public class Spookje extends Poppetje implements Eetbaar {
     public void setVorigVakje(LeegVakje vakje) {
         this.vorigVakje = vakje;
     }
-
-    public Spookje(Speelveld speelveld, Afbeelding afbeelding) {
-        this.speelveld = speelveld;
-        this.spookPlaatje = afbeelding.getAfbeelding();
-        
-        this.eetbaarTimer = new Timer(10000, new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Spookje.this.eetbaarTimer.stop();
-                Spookje.this.isEetBaar = false;
-            }
-        });
-    }
-
+    
     @Override
     public void teken(Graphics2D g) {
         if (this.huidigVakje != null) {

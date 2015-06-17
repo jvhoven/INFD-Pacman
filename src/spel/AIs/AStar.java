@@ -94,8 +94,7 @@ public class AStar extends SmartAI {
 
         while (iterator.hasNext()) {
             LeegVakje buurVakje = (LeegVakje) iterator.next();
-            if (!open.contains(buurVakje) && !closed.contains(buurVakje)) {
-                buurVakje.gebruiktDijkstra = false;
+            if (!open.contains(buurVakje) && !closed.contains(buurVakje)) {                
 
                 buurVakje.H = berekenHeuristischeWaarde(buurVakje);
 
@@ -109,9 +108,9 @@ public class AStar extends SmartAI {
 
     }
 
-    public int berekenHeuristischeWaarde(LeegVakje huidig) {
-        int dx = Math.abs(huidig.positie.x - targetVakje.positie.x);
-        int dy = Math.abs(huidig.positie.y - targetVakje.positie.y);
+    public int berekenHeuristischeWaarde(LeegVakje huidigVakje) {
+        int dx = Math.abs(huidigVakje.positie.x - targetVakje.positie.x);
+        int dy = Math.abs(huidigVakje.positie.y - targetVakje.positie.y);
 
         int heuristischeWaarde = dx + dy;
         return heuristischeWaarde;
