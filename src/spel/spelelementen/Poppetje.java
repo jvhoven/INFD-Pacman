@@ -21,7 +21,10 @@ public abstract class Poppetje extends SpelElement {
     public void beweegNaar(LeegVakje vakje) {
         this.huidigVakje.verwijderSpelElement(this);
         vakje.toevoegenSpelElement(this);
-        this.speelveld.repaint();
+        
+        if(speelveld != null) {
+            this.speelveld.repaint();
+        }
     }
 
     public void setHuidigVakje(LeegVakje vakje) {

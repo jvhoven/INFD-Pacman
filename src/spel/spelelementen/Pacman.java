@@ -44,13 +44,24 @@ public class Pacman extends Poppetje implements KeyListener {
         this.pacmanPlaatje = Afbeelding.PACMAN.getAfbeelding();
     }
     
+    /*
+    * Test constructor gebruikt voor Unit tests
+    */
+    public Pacman(LeegVakje startPositie) {
+        this.richting = Richting.NEUTRAAL;
+        this.levens = 3;
+        this.startVakje = startPositie;
+    }
+    
     public int getLevens() {
         return this.levens;
     }
 
     public void verwijderLeven() {
         --this.levens;
-        this.speelveld.resetPositiePoppetjes();
+        if(speelveld != null) {
+            this.speelveld.resetPositiePoppetjes();
+        }
     }
     
     @Override
@@ -116,7 +127,10 @@ public class Pacman extends Poppetje implements KeyListener {
 
     public void etenEetbaarSpelElement(Eetbaar eetbaarSpelElement) {
         int punten = eetbaarSpelElement.opeten();
-        this.speelveld.addPunten(punten);
+        
+        if(speelveld != null) {
+            this.speelveld.addPunten(punten);
+        }
 
         if (eetbaarSpelElement instanceof Bolletje || eetbaarSpelElement instanceof Superbolletje) {
             aantalOpgegetenBolletjes++;
@@ -134,8 +148,8 @@ public class Pacman extends Poppetje implements KeyListener {
         }
     }
 
-    private Richting getRichting(KeyEvent e) {
-        switch (e.getKeyCode()) {
+    public Richting getRichting(int keyCode) {
+        switch (keyCode) {
 
             case KeyEvent.VK_DOWN:
                 return Richting.OMLAAG;
@@ -155,11 +169,11 @@ public class Pacman extends Poppetje implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
         if (this.speelveld.getSpelStatus() == SpelStatus.GESTART) {
-            this.richting = getRichting(e);
+            this.richting = getRichting(e.getKeyCode());
 
             if (!arrowKeyPressed) {
                 probeerTeBewegen(richting);
@@ -173,7 +187,7 @@ public class Pacman extends Poppetje implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        Richting losgelatenRichting = getRichting(e);
+        Richting losgelatenRichting = getRichting(e.getKeyCode());
 
         if (losgelatenRichting == this.richting) {
             beweegTimer.stop();

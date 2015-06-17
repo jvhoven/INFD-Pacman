@@ -34,6 +34,13 @@ public class Spookje extends Poppetje implements Eetbaar {
         });
     }
     
+     /*
+    * Test constructor gebruikt voor Unit tests
+    */
+    public Spookje(LeegVakje startPositie) {
+        this.startVakje = startPositie;
+    }
+    
     public boolean getIsEetbaar(){
         return this.isEetBaar;
     }
