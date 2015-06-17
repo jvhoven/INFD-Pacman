@@ -29,7 +29,7 @@ public class LeegVakje extends Vakje implements Comparable {
     //<dijkstra
 
     //Astar>
-    public LeegVakje voorliggendVakje;
+    public LeegVakje voorgaandVakjeInPad;
     public int H;
     public int F;
     public int G;

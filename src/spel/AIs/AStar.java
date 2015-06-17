@@ -51,14 +51,14 @@ public class AStar extends SmartAI {
         }
         
         if (!this.spookje.getIsEetbaar()) {
-            this.volgendVakje = targetVakje.voorliggendVakje;
+            this.volgendVakje = targetVakje.voorgaandVakjeInPad;
         } else {
             setVolgendVakjeEetbaarSpookje();
         }
     }
 
     public void setVolgendVakjeEetbaarSpookje() {
-        LeegVakje vakjeRichtingPacman = targetVakje.voorliggendVakje;
+        LeegVakje vakjeRichtingPacman = targetVakje.voorgaandVakjeInPad;
         ArrayList<LeegVakje> buurVakjes = targetVakje.getLegeBuurVakjes();
         LeegVakje vorigVakje = spookje.getVorigVakje();
         
@@ -83,8 +83,8 @@ public class AStar extends SmartAI {
 
                 buurVakje.H = berekenHeuristischeWaarde(buurVakje);
 
-                buurVakje.voorliggendVakje = huidigVakje;
-                buurVakje.G = 1 + buurVakje.voorliggendVakje.G;
+                buurVakje.voorgaandVakjeInPad = huidigVakje;
+                buurVakje.G = 1 + buurVakje.voorgaandVakjeInPad.G;
                 buurVakje.F = buurVakje.H + buurVakje.G;
 
                 open.add(buurVakje);

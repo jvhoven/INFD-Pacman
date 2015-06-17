@@ -172,7 +172,6 @@ public class Pacman extends Poppetje implements KeyListener {
     
     @Override
     public void keyPressed(KeyEvent e) {
-        if (this.speelveld.getSpelStatus() == SpelStatus.GESTART) {
             this.richting = getRichting(e.getKeyCode());
 
             if (!arrowKeyPressed) {
@@ -182,7 +181,6 @@ public class Pacman extends Poppetje implements KeyListener {
 
             beweegTimer.setDelay(0);
             beweegTimer.start();
-        }
     }
 
     @Override
